@@ -75,6 +75,10 @@ document.addEventListener('DOMContentLoaded', async () => {
         })
     }
 
+    function dateNoTimezone(date) {
+        return new Date(date.getTime() - (date.getTimezoneOffset() * 60000)).toISOString();
+    }
+
     await jQuery.ajax({
         type: "POST",
         dataType: "json",
@@ -131,8 +135,8 @@ document.addEventListener('DOMContentLoaded', async () => {
                 data: {
                     action:'post_db',
                     title: title,
-                    start: arg.start.toISOString(),
-                    end: arg.end.toISOString()
+                    start: dateNoTimezone(arg.start),
+                    end: dateNoTimezone(arg.end)
                 },
                 success: function(response){
                     calendar.addEvent({
@@ -184,8 +188,8 @@ document.addEventListener('DOMContentLoaded', async () => {
                 data: {
                     action:'update_db',
                     id: arg.event._def.extendedProps.ID,
-                    start: arg.event.start.toISOString(),
-                    end: arg.event.end.toISOString()
+                    start: dateNoTimezone(arg.event.start),
+                    end: dateNoTimezone(arg.event.end)
                 },
                 success: function(){
                     console.log('moved, id:', arg.event._def.extendedProps.ID); 
@@ -209,8 +213,8 @@ document.addEventListener('DOMContentLoaded', async () => {
                 data: {
                     action:'update_db',
                     id: arg.event._def.extendedProps.ID,
-                    start: arg.event.start.toISOString(),
-                    end: arg.event.end.toISOString()
+                    start: dateNoTimezone(arg.event.start),
+                    end: dateNoTimezone(arg.event.end)
                 },
                 success: function(){ 
                     console.log('updated, id:', arg.event._def.extendedProps.ID); 
