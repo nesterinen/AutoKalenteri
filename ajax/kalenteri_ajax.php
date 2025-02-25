@@ -1,5 +1,9 @@
 <?php 
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly
+}
+
 function get_all() {
     global $wpdb;
     $wp_table_name = get_table_name();
