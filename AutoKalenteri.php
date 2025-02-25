@@ -10,6 +10,8 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
+include(plugin_dir_path(__FILE__) . 'ajax/kalenteri_ajax.php');
+
 function load_kalenteri(){
     wp_register_script('fullcalendar', plugin_dir_url( __FILE__ ) . "js/fullcalendar/dist/index.global.js", array( 'jquery' ), null, true);
     wp_enqueue_script('fullcalendar');

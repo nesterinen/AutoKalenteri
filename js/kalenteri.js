@@ -6,6 +6,23 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     console.log('element found!')
 
+    await jQuery.ajax({
+        type: "POST",
+        dataType: "json",
+        url: my_ajax_object.ajax_url,
+        data: { action:'get_all' },
+        success: function(response){
+            console.log(response)
+        },
+        error: function(jqXHR, error, errorThrown){
+          if(jqXHR.status&&jqXHR.status==200){
+            console.log('err', jqXHR);
+          } else {
+            console.log(jqXHR.responseText)
+          }
+        }
+    });  
+
     let calendar = new FullCalendar.Calendar(calendarEl, {
         initialView: 'dayGridMonth',
         headerToolbar: {
