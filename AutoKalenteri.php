@@ -12,7 +12,7 @@ if (!defined('ABSPATH')) {
 
 // global vars
 global $table_name;
-$table_name = 'test_table';
+$table_name = 'auto_kalenteri';
 
 function get_table_name(){
     global $wpdb;
@@ -24,7 +24,7 @@ function get_table_name(){
 // logging function for debugging, wp debug has to be enabled in config, delete later
 include(plugin_dir_path(__FILE__) . 'dev/logger.php');
 
-// plugin activation stuff
+// create wp_db_table if it doesnt exists yet on plugin activation
 function kalenteri_plugin_activation() {
     global $wpdb;
     $wp_table_name = get_table_name();
