@@ -4,6 +4,7 @@
  * Description: Kalenteri autojen varaamista varten.
  * Version: 1.0
  * Author: Aleksei Nesterinen
+ * Author URI: https://github.com/nesterinen/AutoKalenteri/tree/main?tab=readme-ov-file
  */
 
 if (!defined('ABSPATH')) {
