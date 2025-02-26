@@ -1,5 +1,4 @@
-#kalenteriElement {
-    background-color: white;
+div[name="kalenteri_name_css"] {
     max-width: 1100px;
     margin: 0 auto;
 }
