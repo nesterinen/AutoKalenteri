@@ -2,9 +2,9 @@
 
 <p align="center"><img src="github/kalenteri.png"/></p>
 
-<h3 align="center"> AutoKalenteri is a simple wordpress plugin for managing car aviablity </p>
+<h2 align="center"> AutoKalenteri is a simple wordpress plugin for managing car aviablity </h2>
 
-<h4> Functionality </h4>
+<h3> Functionality: </h3>
 <ul>
   <li>View reservations</li>
   <li>Create reservations</li>
@@ -14,6 +14,8 @@
 
 
 <h3> Download & Installation </h3>
+[Download](https://codeload.github.com/nesterinen/AutoKalenteri/zip/refs/heads/main)
+
 
 ```shell
 $ npm i boilerplate-readme-template
