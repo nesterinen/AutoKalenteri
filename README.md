@@ -19,3 +19,6 @@
 <p>Then login to your wordpress admin site, and go to the plugins page</p>
 <img src="github/wppluginmarked.png"/>
 <p>Click Activate</p>
+<p>The plugin will then automatically create a page and database table for the plugin</p>
+<img src="github/wppages.png"/>
+<img src="github/table.png"/>
