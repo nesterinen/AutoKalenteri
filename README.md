@@ -26,3 +26,7 @@
 
 <h3>License</h3>
 This project is licensed under the MIT License
+
+<h3>Footnote</h3>
+<p>this is my first time being in the wordpress enviroment</p>
+<p>this is my first time using php</p>
