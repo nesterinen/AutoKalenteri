@@ -12,6 +12,7 @@
   <li>Update reservations</li>
 </ul>
 
+<a href="https://fullcalendar.io/"> This plugin uses Fullcalendar </a>
 
 <h3> Download & Installation </h3>
 <a href="https://codeload.github.com/nesterinen/AutoKalenteri/zip/refs/heads/main"> Download(.zip) </a>
@@ -19,6 +20,9 @@
 <p>Then login to your wordpress admin site, and go to the plugins page</p>
 <img src="github/wppluginmarked.png"/>
 <p>Click Activate</p>
-<p>The plugin will then automatically create a page and database table for the plugin</p>
-<img src="github/wppages.png"/>
-<img src="github/table.png"/>
+<p>The plugin will then automatically create a page(/autokalenteri/) and database table for the plugin</p>
+<a href="github/wppages.png">page</a>
+<a href="github/table.png">table</a>
+
+<h3>License</h3>
+This project is licensed under the MIT License
