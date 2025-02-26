@@ -12,7 +12,7 @@ if (!defined('ABSPATH')) {
 
 // global vars
 global $page_name;
-$page_name = 'kalenteri';
+$page_name = 'AutoKalenteri';
 
 global $table_name;
 $table_name = 'auto_kalenteri';
@@ -45,6 +45,47 @@ function kalenteri_plugin_activation() {
     dbDelta($sql);
 }
 register_activation_hook(__FILE__, 'kalenteri_plugin_activation');
+
+// create page for kalenteri
+function kalenteri_plugin_activation_page() {
+    global $page_name;
+
+    // get_page_by_title() is Deprecated so use wp_query.
+    // if page for calendar does not exist then create page.
+    $query = new WP_Query(
+        array(
+            'post_type'              => 'page',
+            'title'                  => $page_name,
+            'post_status'            => 'all',
+            'posts_per_page'         => 1,
+            'no_found_rows'          => true,
+            'ignore_sticky_posts'    => true,
+            'update_post_term_cache' => false,
+            'update_post_meta_cache' => false,
+            'orderby'                => 'post_date ID',
+            'order'                  => 'ASC',
+        )
+    );
+
+    if ( ! empty( $query->post)) { 
+        write_log('page exists already');
+        return;
+    }
+
+    $page_content = '<div id="kalenteriElement"></div>';
+    
+    $kalenteri_page = array(
+        'post_title' => wp_strip_all_tags($page_name),
+        'post_content' => $page_content,
+        'post_status' => 'publish',
+        'post_author' => 1,
+        'post_type' => 'page'
+    );
+    
+    wp_insert_post($kalenteri_page);
+    write_log('page created?');
+}
+register_activation_hook(__FILE__, 'kalenteri_plugin_activation_page');
 
 // ajax, rest/crud api modifying db stuff for kalenteri
 include(plugin_dir_path(__FILE__) . 'ajax/kalenteri_ajax.php');

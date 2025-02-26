@@ -8,11 +8,11 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     function colorCase(title) {
         switch (title) {
-          case "paku":
+          case "Henkilöauto":
             return '#648FFF'
-          case "maasturi":
+          case "Pakettiauto":
             return '#785EF0'
-          case "sedan":
+          case "Pikkubussi":
             return '#FE6100'
           default:
             return '#FFB000'
@@ -41,11 +41,11 @@ document.addEventListener('DOMContentLoaded', async () => {
         
           var select = document.createElement('select')
           var auto1 = document.createElement('option')
-          auto1.appendChild(document.createTextNode('paku'))
+          auto1.appendChild(document.createTextNode('Henkilöauto'))
           var auto2 = document.createElement('option')
-          auto2.appendChild(document.createTextNode('sedan'))
+          auto2.appendChild(document.createTextNode('Pakettiauto'))
           var auto3 = document.createElement('option')
-          auto3.appendChild(document.createTextNode('maasturi'))
+          auto3.appendChild(document.createTextNode('Pikkubussi'))
           var auto4 = document.createElement('option')
           auto4.appendChild(document.createTextNode('muu'))
           select.appendChild(auto1)
