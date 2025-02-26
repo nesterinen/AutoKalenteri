@@ -1,7 +1,7 @@
 console.log('kalenteri.js loaded')
 
 document.addEventListener('DOMContentLoaded', async () => {
-    let calendarEl = document.getElementById('kalenteriElement'); // page needs div with id kalenteriElement
+    let calendarEl = document.getElementById(my_ajax_object.element_name); // page needs div with id kalenteriElement
     if (!calendarEl) return; // if no cant get elem then return nothing.
 
     let jsVaraukset;

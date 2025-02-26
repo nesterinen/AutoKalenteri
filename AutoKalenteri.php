@@ -17,6 +17,9 @@ $page_name = 'AutoKalenteri';
 global $table_name;
 $table_name = 'auto_kalenteri';
 
+global $element_name;
+$element_name = 'kalenteriElement';
+
 function get_table_name(){
     global $wpdb;
     global $table_name;
@@ -49,6 +52,7 @@ register_activation_hook(__FILE__, 'kalenteri_plugin_activation');
 // create page for kalenteri
 function kalenteri_plugin_activation_page() {
     global $page_name;
+    global $element_name;
 
     // get_page_by_title() is Deprecated so use wp_query.
     // if page for calendar does not exist then create page.
@@ -68,11 +72,11 @@ function kalenteri_plugin_activation_page() {
     );
 
     if ( ! empty( $query->post)) { 
-        write_log('page exists already');
+        //write_log('page exists already');
         return;
     }
 
-    $page_content = '<div id="kalenteriElement"></div>';
+    $page_content = '<div id=' . $element_name . '></div>';
     
     $kalenteri_page = array(
         'post_title' => wp_strip_all_tags($page_name),
@@ -83,7 +87,6 @@ function kalenteri_plugin_activation_page() {
     );
     
     wp_insert_post($kalenteri_page);
-    write_log('page created?');
 }
 register_activation_hook(__FILE__, 'kalenteri_plugin_activation_page');
 
@@ -93,6 +96,7 @@ include(plugin_dir_path(__FILE__) . 'ajax/kalenteri_ajax.php');
 // load fullcalender, styles, kalenteri and ajax variable for kalenteri.
 function load_kalenteri(){
     global $page_name;
+    global $element_name;
     if(is_page($page_name)){
         wp_register_script('fullcalendar', plugin_dir_url( __FILE__ ) . "js/fullcalendar/dist/index.global.js", array( 'jquery' ), null, true);
         wp_enqueue_script('fullcalendar');
@@ -100,7 +104,7 @@ function load_kalenteri(){
         wp_enqueue_style('wsp-styles', plugin_dir_url(__FILE__) . 'css/kalenteri.css');
         
         wp_enqueue_script( 'ajax-script', plugin_dir_url(__FILE__) . 'js/kalenteri.js', array('jquery') );
-        wp_localize_script( 'ajax-script', 'my_ajax_object', array( 'ajax_url' => admin_url( 'admin-ajax.php' )) );
+        wp_localize_script( 'ajax-script', 'my_ajax_object', array( 'ajax_url' => admin_url( 'admin-ajax.php' ), 'element_name' => $element_name));
     }
 }
 add_action('wp_enqueue_scripts', 'load_kalenteri');
