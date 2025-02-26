@@ -2,13 +2,14 @@
 
 <p align="center"><img src="github/kalenteri.png"/></p>
 
-<p align="center"> Intro - Boilerplate for Readme.md on Github </p>
+<h3 align="center"> AutoKalenteri is a simple wordpress plugin for managing car aviablity </p>
 
+<h4> Functionality </h4>
 <ul>
-  <li>Beautiful Starter Template for README.md</li>
-  <li>Key feature num. 2</li>
-  <li>Key feature num. 3</li>
-  <li>Key feature num. 4</li>
+  <li>View reservations</li>
+  <li>Create reservations</li>
+  <li>Remove reservations</li>
+  <li>Update reservations</li>
 </ul>
 
 
