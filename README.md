@@ -14,6 +14,7 @@
 
 
 <h3> Download & Installation </h3>
+<a href="https://codeload.github.com/nesterinen/AutoKalenteri/zip/refs/heads/main"> Download </a>
 [Download](https://codeload.github.com/nesterinen/AutoKalenteri/zip/refs/heads/main)
 
 
