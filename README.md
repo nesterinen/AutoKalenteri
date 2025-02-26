@@ -20,9 +20,8 @@
 <p>Then login to your wordpress admin site, and go to the plugins page</p>
 <img src="github/wppluginmarked.png"/>
 <p>Click Activate</p>
-<p>The plugin will then automatically create a page(/autokalenteri/) and database table for the plugin</p>
-<a href="github/wppages.png">page</a>
-<a href="github/table.png">table</a>
+<p>The plugin will then automatically create a <a href="github/wppages.png">page</a> and database <a href="github/table.png">table</a> for the plugin</p>
+
 
 <h3>License</h3>
 This project is licensed under the MIT License
