@@ -53,6 +53,11 @@ document.addEventListener('DOMContentLoaded', async () => {
           select.appendChild(auto2)
           select.appendChild(auto3)
           select.appendChild(auto4)
+
+          const varaajaText = document.createElement('p')
+          var text2 = document.createTextNode("Varaaja")
+          varaajaText.appendChild(text2)
+          varaajaInput = document.createElement('input')
         
           function dialogClose() {
             addButton.removeEventListener('click', () => dialogAdd())
@@ -65,11 +70,13 @@ document.addEventListener('DOMContentLoaded', async () => {
             addButton.removeEventListener('click', () => dialogAdd())
             closeButton.removeEventListener('click', () => dialogClose())
             myDialog.close()
-            resolve(select.value)
+            resolve({value: select.value, input: varaajaInput.value})
           }
           
           myDialog.appendChild(header)
           myDialog.appendChild(select)
+          myDialog.appendChild(varaajaText)
+          myDialog.appendChild(varaajaInput)
           myDialog.appendChild(addButton)
           myDialog.appendChild(closeButton)
           myDialog.showModal()
@@ -87,9 +94,9 @@ document.addEventListener('DOMContentLoaded', async () => {
         data: { action:'get_all' },
         success: function(response){
             carReservationsJSON = response.data.map(obj => {
-                return {...obj, color: colorCase(obj.title), extendedProps: {ID: obj.id}}
+                return {...obj, color: colorCase(obj.title), extendedProps: {ID: obj.id, varaaja:obj.varaaja}}
             })
-            //console.log(carReservationsJSON)
+            console.log(carReservationsJSON)
         },
         error: function(jqXHR, error, errorThrown){
           if(jqXHR.status&&jqXHR.status==200){
@@ -126,9 +133,12 @@ document.addEventListener('DOMContentLoaded', async () => {
         
         select: async function(arg) {
             //var title = prompt('Event Title:');
-            var title = await Popup()
+            var popUpResult = await Popup()
 
-            if (title) {
+            if (popUpResult) {
+            var title = popUpResult.value
+            var varaaja = popUpResult.input
+
             jQuery.ajax({
                 type: "POST",
                 dataType: "json",
@@ -137,7 +147,8 @@ document.addEventListener('DOMContentLoaded', async () => {
                     action:'post_db',
                     title: title,
                     start: dateNoTimezone(arg.start),
-                    end: dateNoTimezone(arg.end)
+                    end: dateNoTimezone(arg.end),
+                    varaaja: varaaja
                 },
                 success: function(response){
                     calendar.addEvent({
@@ -146,7 +157,8 @@ document.addEventListener('DOMContentLoaded', async () => {
                     title: title,
                     start: arg.start,
                     end: arg.end,
-                    color: colorCase(title)
+                    color: colorCase(title),
+                    varaaja: varaaja
                     })
                     console.log('added, id:', response.data.id)
                 },
@@ -230,6 +242,20 @@ document.addEventListener('DOMContentLoaded', async () => {
             }
         },
 
+        eventDidMount : function (event) {
+            const varaaja = event.event._def.extendedProps.varaaja
+            if (varaaja) {
+                let elements = event.el.getElementsByClassName('fc-event-title fc-sticky')
+
+                if (!elements) return;
+
+                varaajaTextElemt = document.createElement('p')
+                const text = document.createTextNode(varaaja)
+                varaajaTextElemt.appendChild(text)
+
+                elements[0].appendChild(varaajaTextElemt)
+            }
+        },
         editable: true,
         dayMaxEvents: true,
 

@@ -42,6 +42,7 @@ function kalenteri_plugin_activation() {
         title varchar(255) NOT NULL,
         start datetime NOT NULL,
         end datetime NOT NULL,
+        varaaja varchar(255),
         PRIMARY KEY  (id)
     ) $charset_collate;";
 

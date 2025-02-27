@@ -26,6 +26,7 @@ function post_db() {
       "title" => $_POST['title'],
       "start" =>  $_POST['start'],
       "end" =>  $_POST['end'],
+      "varaaja" => $_POST['varaaja']
     ));
 
     switch (true) {
