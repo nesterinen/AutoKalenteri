@@ -45,6 +45,7 @@ div[name="kalenteri_name_css"] {
     text-align: center;
     margin-bottom: 3px;
     margin-top: 3px;
+    color: white;
 }
 
 #varausPopup input {
