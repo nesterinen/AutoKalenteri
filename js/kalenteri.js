@@ -250,6 +250,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 if (!elements) return;
 
                 varaajaTextElemt = document.createElement('p')
+                varaajaTextElemt.setAttribute('id', 'eventparagraph')
                 const text = document.createTextNode(varaaja)
                 varaajaTextElemt.appendChild(text)
 
