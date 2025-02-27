@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (!calendarEl) return; // if no cant get elem then return nothing.
     calendarEl.setAttribute('name', 'kalenteri_name_css')
 
-    let jsVaraukset;
+    let carReservationsJSON;
 
     function colorCase(title) {
         switch (title) {
@@ -86,10 +86,10 @@ document.addEventListener('DOMContentLoaded', async () => {
         url: my_ajax_object.ajax_url,
         data: { action:'get_all' },
         success: function(response){
-            jsVaraukset = response.data.map(obj => {
+            carReservationsJSON = response.data.map(obj => {
                 return {...obj, color: colorCase(obj.title), extendedProps: {ID: obj.id}}
             })
-            console.log(jsVaraukset)
+            //console.log(carReservationsJSON)
         },
         error: function(jqXHR, error, errorThrown){
           if(jqXHR.status&&jqXHR.status==200){
@@ -233,7 +233,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         editable: true,
         dayMaxEvents: true,
 
-        events: jsVaraukset
+        events: carReservationsJSON
     });
 
     calendar.render();

@@ -10,10 +10,10 @@
 if (!defined('ABSPATH')) {
     exit;
 }
-
+ 
 // global vars
 global $page_name;
-$page_name = 'AutoKalenteri';
+$page_name = 'Autovaraukset';
 
 global $table_name;
 $table_name = 'auto_kalenteri';
