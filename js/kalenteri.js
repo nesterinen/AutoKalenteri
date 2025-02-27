@@ -133,6 +133,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         slotMinTime: "07:00",
         slotMaxTime: "19:00",
+        firstDay: 1,
         
         select: async function(arg) {
             //var title = prompt('Event Title:');
