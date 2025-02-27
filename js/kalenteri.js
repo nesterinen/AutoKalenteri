@@ -118,7 +118,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         buttonText: {
             today: 'Tänään',
-            month: 'Kuukasi',
+            month: 'Kuukausi',
             week: 'Viikko',
             day: 'Päivä'
         },
@@ -130,6 +130,9 @@ document.addEventListener('DOMContentLoaded', async () => {
         locale: 'fi-fi',
         allDaySlot: false,
         unselectAuto: false, // if true(default) event gets unselected during popup()
+
+        slotMinTime: "07:00",
+        slotMaxTime: "19:00",
         
         select: async function(arg) {
             //var title = prompt('Event Title:');
@@ -247,14 +250,14 @@ document.addEventListener('DOMContentLoaded', async () => {
             if (varaaja) {
                 let elements = event.el.getElementsByClassName('fc-event-title fc-sticky')
 
-                if (!elements) return;
+                if (elements.length == 0) return;
 
                 varaajaTextElemt = document.createElement('p')
                 varaajaTextElemt.setAttribute('id', 'eventparagraph')
                 const text = document.createTextNode(varaaja)
                 varaajaTextElemt.appendChild(text)
 
-                elements[0].appendChild(varaajaTextElemt)
+                elements[0].appendChild(varaajaTextElemt)    
             }
         },
         editable: true,
