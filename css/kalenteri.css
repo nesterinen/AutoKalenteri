@@ -54,3 +54,7 @@ div[name="kalenteri_name_css"] {
 #eventparagraph {
     color: white;
 }
+
+div[name="kalenteri_name_css"] table {
+    background-color: transparent;
+}
