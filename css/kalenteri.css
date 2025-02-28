@@ -62,3 +62,11 @@ div[name="kalenteri_name_css"] table {
 div[name="kalenteri_name_css"] .fc-day {
     border-color: #ddd;
 }
+
+div[name="kalenteri_name_css"] .fc-timegrid-slot {
+    background-color: transparent;
+}
+
+div[name="kalenteri_name_css"] .fc-header-toolbar button{
+    background-color: #5baa00;
+}
