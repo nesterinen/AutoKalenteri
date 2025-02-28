@@ -1,5 +1,6 @@
 div[name="kalenteri_name_css"] {
     max-width: 1100px;
+    max-height: 702px;
     margin: 0 auto;
 }
 
@@ -69,4 +70,12 @@ div[name="kalenteri_name_css"] .fc-timegrid-slot {
 
 div[name="kalenteri_name_css"] .fc-header-toolbar button{
     background-color: #5baa00;
+}
+
+div[name="kalenteri_name_css"] .fc-scrollgrid-section.fc-scrollgrid-section-header {
+    max-height: 32px;
+}
+
+div[name="kalenteri_name_css"] .fc-scrollgrid-section.fc-scrollgrid-section-header .fc-scroller-harness {
+    max-height: 32px;
 }
