@@ -3,11 +3,11 @@ console.log('kalenteri.js loaded')
 document.addEventListener('DOMContentLoaded', async () => {
     let calendarEl = document.getElementById(my_ajax_object.element_name); // page needs div with id kalenteriElement
     if (!calendarEl) return; // if no cant get elem then return nothing.
-    calendarEl.setAttribute('name', 'kalenteri_name_css')
+    calendarEl.setAttribute('name', 'kalenteri_name_css') // refrence for css
 
     let carReservationsJSON;
 
-    function colorCase(title) {
+    function colorCaseOld(title) {
         switch (title) {
           case "Henkilöauto":
             return '#648FFF'
@@ -20,108 +20,27 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     }
 
-    async function Popup(startTime, endTime) {
-        var startTimeVariable = dateNoTimezone(startTime).split("T")[1].split(".")[0].split(":")  // turn dateobj to string array [0]hours [1]minutes
-        var endTimeVariable = dateNoTimezone(endTime).split("T")[1].split(".")[0].split(":")  // turn dateobj to string array [0]hours [1]minutes
-
-        return new Promise((resolve) => {
-          const myDialog = document.createElement("dialog")
-          myDialog.setAttribute('id', 'varausPopup')
-          document.body.appendChild(myDialog)
-        
-          const header = document.createElement('h2')
-          const text = document.createTextNode("Auton varaus")
-          header.appendChild(text)
-
-          const resrvTimes = document.createElement('div')
-          resrvTimes.setAttribute('id', "popupStartEndTimes")
-
-          const rasrvParagraph = document.createElement('p')
-          const rasrvParagraphText = document.createTextNode('Kello')
-          rasrvParagraph.appendChild(rasrvParagraphText)
-
-          var startTextField = document.createElement('input')
-          startTextField.setAttribute('type', 'time')
-          startTextField.setAttribute('value', `${startTimeVariable[0]}:${startTimeVariable[1]}`)
-
-          var endTextField = document.createElement('input')
-          endTextField.setAttribute('type', 'time')
-          endTextField.setAttribute('value', `${endTimeVariable[0]}:${endTimeVariable[1]}`)
-
-          resrvTimes.appendChild(rasrvParagraph)
-          resrvTimes.appendChild(startTextField)
-          resrvTimes.appendChild(endTextField)
-        
-         
-          var closeButton = document.createElement('button')
-          closeButton.textContent = 'peruuta'
-          closeButton.setAttribute('id', 'closeButton')
-          closeButton.addEventListener('click', () => dialogClose())
-    
-          var addButton = document.createElement('button')
-          addButton.textContent = 'varaa'
-          addButton.setAttribute('id', 'addButton')
-          addButton.addEventListener('click', () => dialogAdd())
-        
-          var select = document.createElement('select')
-          var auto1 = document.createElement('option')
-          auto1.appendChild(document.createTextNode('Henkilöauto'))
-          var auto2 = document.createElement('option')
-          auto2.appendChild(document.createTextNode('Pakettiauto'))
-          var auto3 = document.createElement('option')
-          auto3.appendChild(document.createTextNode('Pikkubussi'))
-          var auto4 = document.createElement('option')
-          auto4.appendChild(document.createTextNode('muu'))
-          select.appendChild(auto1)
-          select.appendChild(auto2)
-          select.appendChild(auto3)
-          select.appendChild(auto4)
-
-          const varaajaText = document.createElement('p')
-          const text2 = document.createTextNode("Varaaja")
-          varaajaText.appendChild(text2)
-          var varaajaInput = document.createElement('input')
-        
-          function dialogClose() {
-            addButton.removeEventListener('click', () => dialogAdd())
-            closeButton.removeEventListener('click', () => dialogClose())
-            myDialog.close()
-            resolve(undefined)
-          }
-        
-          function dialogAdd() {
-            addButton.removeEventListener('click', () => dialogAdd())
-            closeButton.removeEventListener('click', () => dialogClose())
-
-            const startDateObj = new Date(startTime)
-            startTimeVariable = startTextField.value.split(':')
-            startDateObj.setHours(startTimeVariable[0])
-            startDateObj.setMinutes(startTimeVariable[1])
-
-            const endDateObj = new Date(endTime)
-            endTimeVariable = endTextField.value.split(':')
-            endDateObj.setHours(endTimeVariable[0])
-            endDateObj.setMinutes(endTimeVariable[1])
-
-            myDialog.close()
-            resolve({value: select.value, input: varaajaInput.value, start: startDateObj, end: endDateObj})
-          }
-          
-          myDialog.appendChild(header)
-          myDialog.appendChild(select)
-          myDialog.appendChild(resrvTimes)
-          myDialog.appendChild(varaajaText)
-          myDialog.appendChild(varaajaInput)
-          myDialog.appendChild(addButton)
-          myDialog.appendChild(closeButton)
-          myDialog.showModal()
-        })
+    let availableCarsJson = {
+        'Henkilöauto': '#648FFF',
+        'Pakettiauto': '#785EF0',
+        'Pikkubussi': '#FE6100',
     }
 
+    function colorCase(title) {
+        let color = availableCarsJson[title]
+        if(color) {
+            return color
+        } else {
+            return '#FFB000'
+        }
+    }
+
+    // there is a duplicate of this in popus.js, imports/scope in wordpress is silly.
     function dateNoTimezone(date) {
         return new Date(date.getTime() - (date.getTimezoneOffset() * 60000)).toISOString();
     }
 
+    // get reservations from database
     await jQuery.ajax({
         type: "POST",
         dataType: "json",
@@ -171,8 +90,9 @@ document.addEventListener('DOMContentLoaded', async () => {
         firstDay: 1,
         
         select: async function(arg) {
-            //var title = prompt('Event Title:');
-            var popUpResult = await Popup(arg.start, arg.end)
+            // Popup returns
+            // {value: select.value, input: varaajaInput.value, start: startDateObj, end: endDateObj}) | undefined
+            var popUpResult = await Popup(arg.start, arg.end, availableCarsJson)
 
             if (popUpResult) {
             var title = popUpResult.value
@@ -284,10 +204,12 @@ document.addEventListener('DOMContentLoaded', async () => {
         },
 
         eventDidMount : function (event) {
-            const varaaja = event.event._def.extendedProps.varaaja
+            // add <p></p> for who reserved/varaaja to calendar events
+            const varaaja = event.event._def.extendedProps.varaaja // can be null.
             if (varaaja) {
                 let elements = event.el.getElementsByClassName('fc-event-title fc-sticky')
 
+                // month view is different from week view, there are no elements fc-event-title fc-sticky in month view.
                 if (elements.length == 0) return;
 
                 varaajaTextElemt = document.createElement('p')

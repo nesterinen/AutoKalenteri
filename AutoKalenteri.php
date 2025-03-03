@@ -105,7 +105,8 @@ function load_kalenteri(){
         
         wp_enqueue_style('wsp-styles', plugin_dir_url(__FILE__) . 'css/kalenteri.css');
         
-        wp_enqueue_script( 'ajax-script', plugin_dir_url(__FILE__) . 'js/kalenteri.js', array('jquery') );
+        wp_register_script('popups-script', plugin_dir_url(__FILE__) . 'js/popups.js', null, null);
+        wp_enqueue_script( 'ajax-script', plugin_dir_url(__FILE__) . 'js/kalenteri.js', array('jquery', 'popups-script') );
         wp_localize_script( 'ajax-script', 'my_ajax_object', array( 'ajax_url' => admin_url( 'admin-ajax.php' ), 'element_name' => $element_name));
     }
 }
