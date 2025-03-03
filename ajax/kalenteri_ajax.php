@@ -7,7 +7,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 function get_all() {
     global $wpdb;
     $wp_table_name = get_table_name();
-    $result = $wpdb->get_results( "SELECT * FROM " . $wp_table_name );
+
+    // dont fetch reservations that are more than 2 months old, fetching the whole table is not good for longetivity.
+    $time = strtotime("-2 month", time());
+    $year_ago = date("Y-m-d", $time);
+
+    $result = $wpdb->get_results( "SELECT * FROM " . $wp_table_name . " WHERE start > '" . $year_ago . "'");
 
     if ($result !== false) {
         wp_send_json_success($result, 200);
