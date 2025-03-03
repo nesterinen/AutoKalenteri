@@ -21,6 +21,13 @@ $table_name = 'auto_kalenteri';
 global $element_name;
 $element_name = 'kalenteriElement';
 
+global $available_cars;
+$available_cars = array(
+    'Henkilöauto'=>'#648FFF',
+    'Pakettiauto'=>'#785EF0',
+    'Pikkubussi'=>'#FE6100',
+);
+
 function get_table_name(){
     global $wpdb;
     global $table_name;
@@ -99,6 +106,7 @@ include(plugin_dir_path(__FILE__) . 'ajax/kalenteri_ajax.php');
 function load_kalenteri(){
     global $page_name;
     global $element_name;
+    global $available_cars;
     if(is_page($page_name)){
         wp_register_script('fullcalendar', plugin_dir_url( __FILE__ ) . "js/fullcalendar/dist/index.global.js", array( 'jquery' ), null, true);
         wp_enqueue_script('fullcalendar');
@@ -107,7 +115,11 @@ function load_kalenteri(){
         
         wp_register_script('popups-script', plugin_dir_url(__FILE__) . 'js/popups.js', null, null);
         wp_enqueue_script( 'ajax-script', plugin_dir_url(__FILE__) . 'js/kalenteri.js', array('jquery', 'popups-script') );
-        wp_localize_script( 'ajax-script', 'my_ajax_object', array( 'ajax_url' => admin_url( 'admin-ajax.php' ), 'element_name' => $element_name));
+        wp_localize_script( 'ajax-script', 'my_ajax_object', array( 
+            'ajax_url' => admin_url( 'admin-ajax.php' ),
+            'element_name' => $element_name,
+            'available_cars' => $available_cars
+        ));
     }
 }
 add_action('wp_enqueue_scripts', 'load_kalenteri');

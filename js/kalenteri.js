@@ -7,24 +7,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     let carReservationsJSON;
 
-    function colorCaseOld(title) {
-        switch (title) {
-          case "Henkilöauto":
-            return '#648FFF'
-          case "Pakettiauto":
-            return '#785EF0'
-          case "Pikkubussi":
-            return '#FE6100'
-          default:
-            return '#FFB000'
-        }
-    }
-
-    let availableCarsJson = {
-        'Henkilöauto': '#648FFF',
-        'Pakettiauto': '#785EF0',
-        'Pikkubussi': '#FE6100',
-    }
+    let availableCarsJson = my_ajax_object.available_cars
 
     function colorCase(title) {
         let color = availableCarsJson[title]
