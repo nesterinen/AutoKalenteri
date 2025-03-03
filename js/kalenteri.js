@@ -45,7 +45,7 @@ document.addEventListener('DOMContentLoaded', async () => {
           resrvTimes.setAttribute('id', "popupStartEndTimes")
 
           const rasrvParagraph = document.createElement('p')
-          const rasrvParagraphText = document.createTextNode('klo')
+          const rasrvParagraphText = document.createTextNode('Kello')
           rasrvParagraph.appendChild(rasrvParagraphText)
 
           var startTextField = document.createElement('input')
