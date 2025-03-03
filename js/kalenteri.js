@@ -2,7 +2,7 @@ console.log('kalenteri.js loaded')
 
 document.addEventListener('DOMContentLoaded', async () => {
     let calendarEl = document.getElementById(my_ajax_object.element_name); // page needs div with id kalenteriElement
-    if (!calendarEl) return; // if no cant get elem then return nothing.
+    if (!calendarEl) return; // if cant get elem then its useless to do the rest.
     calendarEl.setAttribute('name', 'kalenteri_name_css') // refrence for css
 
     let carReservationsJSON;
@@ -73,9 +73,13 @@ document.addEventListener('DOMContentLoaded', async () => {
         firstDay: 1,
         
         select: async function(arg) {
+            // 1 day has to be subtracted when in monthview and making reservations, else 2 day long event is created.
+            const endDate = new Date(arg.end)
+            if (calendar.view.type === 'dayGridMonth') { endDate.setDate(arg.end.getDate() - 1) }
+
             // Popup returns
             // {value: select.value, input: varaajaInput.value, start: startDateObj, end: endDateObj}) | undefined
-            var popUpResult = await Popup(arg.start, arg.end, availableCarsJson)
+            var popUpResult = await Popup(arg.start, endDate, availableCarsJson)
 
             if (popUpResult) {
             var title = popUpResult.value
@@ -187,20 +191,19 @@ document.addEventListener('DOMContentLoaded', async () => {
         },
 
         eventDidMount : function (event) {
-            // add <p></p> for who reserved/varaaja to calendar events
-            const varaaja = event.event._def.extendedProps.varaaja // can be null.
-            if (varaaja) {
-                let elements = event.el.getElementsByClassName('fc-event-title fc-sticky')
+            // add varaaja/reserver <p></p> to event when in week view 
+            if (calendar.view.type === 'timeGridWeek') {
+                const varaaja = event.event._def.extendedProps.varaaja // can be null.
+                if (varaaja) {
+                    let elements = event.el.getElementsByClassName('fc-event-title fc-sticky')
 
-                // month view is different from week view, there are no elements fc-event-title fc-sticky in month view.
-                if (elements.length == 0) return;
+                    varaajaTextElemt = document.createElement('p')
+                    varaajaTextElemt.setAttribute('id', 'eventparagraph')
+                    const text = document.createTextNode(varaaja)
+                    varaajaTextElemt.appendChild(text)
 
-                varaajaTextElemt = document.createElement('p')
-                varaajaTextElemt.setAttribute('id', 'eventparagraph')
-                const text = document.createTextNode(varaaja)
-                varaajaTextElemt.appendChild(text)
-
-                elements[0].appendChild(varaajaTextElemt)    
+                    elements[0].appendChild(varaajaTextElemt)    
+                }
             }
         },
         editable: true,
