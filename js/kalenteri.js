@@ -33,14 +33,6 @@ document.addEventListener('DOMContentLoaded', async () => {
           const text = document.createTextNode("Auton varaus")
           header.appendChild(text)
 
-
-          /*
-          const startTimeElement = document.createElement('p')
-          var startTimeElementParagraph = document.createTextNode("alku")
-          startTimeElement.appendChild(startTimeElementParagraph)
-          var startTimeElementInput = document.createElement('input')
-          */
-
           const resrvTimes = document.createElement('div')
           resrvTimes.setAttribute('id', "popupStartEndTimes")
 
