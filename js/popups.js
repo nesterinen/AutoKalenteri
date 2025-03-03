@@ -2,7 +2,7 @@ async function Popup(startTime, endTime, availableCarsJson) {
   function dateNoTimezone(date) {
       return new Date(date.getTime() - (date.getTimezoneOffset() * 60000)).toISOString();
   }
-  
+
   var startTimeVariable = dateNoTimezone(startTime).split("T")[1].split(".")[0].split(":")  // turn dateobj to string array [0]hours [1]minutes
   var endTimeVariable = dateNoTimezone(endTime).split("T")[1].split(".")[0].split(":")  // turn dateobj to string array [0]hours [1]minutes
 
@@ -23,7 +23,7 @@ async function Popup(startTime, endTime, availableCarsJson) {
     resrvTimes.setAttribute('id', "popupStartEndTimes")
 
     const rasrvParagraph = document.createElement('p')
-    const rasrvParagraphText = document.createTextNode('Kello')
+    const rasrvParagraphText = document.createTextNode('Aikaväli')
     rasrvParagraph.appendChild(rasrvParagraphText)
 
     var startTextField = document.createElement('input')

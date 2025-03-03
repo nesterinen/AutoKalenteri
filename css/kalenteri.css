@@ -27,20 +27,20 @@ div[name="kalenteri_name_css"] {
 }
 
 #varausPopup #closeButton {
-    background-color: #dc3545;
+    background-color: #d0d0d6;
 }
 
 #varausPopup #closeButton:hover {
-    background-color: #c82333;
+    background-color: #9e9ea3;
 }
 
 #varausPopup #addButton {
     margin-top: 10px;
-    background-color: #28a745;
+    background-color: #5baa00;
 }
 
 #varausPopup #addButton:hover {
-    background-color: #218838;
+    background-color: #498701;
 }
 
 #varausPopup p {
