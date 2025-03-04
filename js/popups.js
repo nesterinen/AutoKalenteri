@@ -13,10 +13,9 @@ function dateToJustDate(date) {
 }
 
 async function Popup(startTime, endTime, availableCarsJson) {
-  var startTimeVariable = dateNoTimezone(startTime).split("T")[1].split(".")[0].split(":")  // turn dateobj to string array [0]hours [1]minutes
-  var endTimeVariable = dateNoTimezone(endTime).split("T")[1].split(".")[0].split(":")  // turn dateobj to string array [0]hours [1]minutes
-
   return new Promise((resolve) => {
+    var startTimeVariable = dateNoTimezone(startTime).split("T")[1].split(".")[0].split(":")  // turn dateobj to string array [0]hours [1]minutes
+    var endTimeVariable = dateNoTimezone(endTime).split("T")[1].split(".")[0].split(":")  // turn dateobj to string array [0]hours [1]minutes
     // Dialog the main element.
     const myDialog = document.createElement("dialog")
     myDialog.setAttribute('id', 'varausPopup')
@@ -75,7 +74,7 @@ async function Popup(startTime, endTime, availableCarsJson) {
     function dialogClose() {
       addButton.removeEventListener('click', () => dialogAdd())
       closeButton.removeEventListener('click', () => dialogClose())
-      myDialog.close()
+      myDialog.remove()
       resolve(null)
     }
 
@@ -102,7 +101,7 @@ async function Popup(startTime, endTime, availableCarsJson) {
       endDateObj.setHours(endTimeVariable[0])
       endDateObj.setMinutes(endTimeVariable[1])
 
-      myDialog.close()
+      myDialog.remove()
       resolve({value: select.value, input: varaajaInput.value, start: startDateObj, end: endDateObj})
     }
     // ################################################################
@@ -153,8 +152,9 @@ async function clickPopup(event) {
     deleteButton.addEventListener('click', () => dialogDelete())
 
     function dialogDelete() {
+      closeButton.removeEventListener('click', () => dialogClose())
       deleteButton.removeEventListener('click', () => dialogDelete())
-      clickDialog.close()
+      clickDialog.remove()
       resolve({id: event.id, delete: true, update: false})
     }
     // ################################################################
@@ -168,7 +168,8 @@ async function clickPopup(event) {
 
     function dialogClose() {
       closeButton.removeEventListener('click', () => dialogClose())
-      clickDialog.close()
+      deleteButton.removeEventListener('click', () => dialogDelete())
+      clickDialog.remove()
       resolve({id: null, delete: false, update: false})
     }
     // ################################################################

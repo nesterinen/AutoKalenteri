@@ -79,40 +79,42 @@ document.addEventListener('DOMContentLoaded', async () => {
 
             // Popup returns
             // {value: select.value, input: varaajaInput.value, start: startDateObj, end: endDateObj}) | null
-            var popUpResult = await Popup(arg.start, endDate, availableCarsJson)
+            const popUpResult = await Popup(arg.start, endDate, availableCarsJson)
+
+            console.log(popUpResult)
 
             if (popUpResult) {
-            var title = popUpResult.value
-            var varaaja = popUpResult.input
-            var reservationStartTime = popUpResult.start
-            var reservationEndTime = popUpResult.end
+                var title = popUpResult.value
+                var varaaja = popUpResult.input
+                var reservationStartTime = popUpResult.start
+                var reservationEndTime = popUpResult.end
 
-            jQuery.ajax({
-                type: "POST",
-                dataType: "json",
-                url: my_ajax_object.ajax_url,
-                data: {
-                    action:'post_db',
-                    title: title,
-                    start: dateNoTimezone(reservationStartTime),
-                    end: dateNoTimezone(reservationEndTime),
-                    varaaja: varaaja
-                },
-                success: function(response){
-                    calendar.addEvent({
-                    id: response.data.id,
-                    title: title,
-                    start: reservationStartTime,
-                    end: reservationEndTime,
-                    color: colorCase(title),
-                    varaaja: varaaja
-                    })
-                    console.log('added, id:', response.data.id)
-                },
-                error: function(error){
-                    console.log('add error:', error)
-                }
-            });  
+                jQuery.ajax({
+                    type: "POST",
+                    dataType: "json",
+                    url: my_ajax_object.ajax_url,
+                    data: {
+                        action:'post_db',
+                        title: title,
+                        start: dateNoTimezone(reservationStartTime),
+                        end: dateNoTimezone(reservationEndTime),
+                        varaaja: varaaja
+                    },
+                    success: function(response){
+                        calendar.addEvent({
+                        id: response.data.id,
+                        title: title,
+                        start: reservationStartTime,
+                        end: reservationEndTime,
+                        color: colorCase(title),
+                        varaaja: varaaja
+                        })
+                        console.log('added, id:', response.data.id)
+                    },
+                    error: function(error){
+                        console.log('add error:', error)
+                    }
+                });  
             }
             calendar.unselect()
         },

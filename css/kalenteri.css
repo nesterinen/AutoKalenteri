@@ -99,16 +99,6 @@ div[name="kalenteri_name_css"] .fc-scrollgrid-section.fc-scrollgrid-section-head
 
 
 /* clickPopup styling */
-
-/*
-#clickPopup {
-    display: grid;
-    grid-template-columns: 2;
-    grid-row: 3;
-    border-radius: 5px;
-}
-*/
-
 #clickPopup {
     border-color: #2c3e50;
     border-radius: 5px;
