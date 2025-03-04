@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         data: { action:'get_all' },
         success: function(response){
             carReservationsJSON = response.data.map(obj => {
-                return {...obj, color: colorCase(obj.title), extendedProps: {ID: obj.id, varaaja:obj.varaaja}}
+                return {...obj, color: colorCase(obj.title), extendedProps: {varaaja:obj.varaaja}}
             })
             //console.log(carReservationsJSON)
         },
@@ -135,7 +135,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                     url: my_ajax_object.ajax_url,
                     data: {
                         action:'delete_db',
-                        id: deleteId //arg.event._def.extendedProps.ID,
+                        id: deleteId
                     },
                     success: function(){ 
                         arg.event.remove()
@@ -157,15 +157,15 @@ document.addEventListener('DOMContentLoaded', async () => {
                 url: my_ajax_object.ajax_url,
                 data: {
                     action:'update_db',
-                    id: arg.event._def.extendedProps.ID,
+                    id: arg.event.id,
                     start: dateNoTimezone(arg.event.start),
                     end: dateNoTimezone(arg.event.end)
                 },
                 success: function(){
-                    console.log('moved, id:', arg.event._def.extendedProps.ID); 
+                    console.log('moved, id:', arg.event.id); 
                     },
                 error: function(error){
-                    console.log('moved with error, id:', arg.event._def.extendedProps.ID)
+                    console.log('moved with error, id:', arg.event.id)
                     console.log('move error:', error)
                 }
             });
@@ -182,15 +182,15 @@ document.addEventListener('DOMContentLoaded', async () => {
                 url: my_ajax_object.ajax_url,
                 data: {
                     action:'update_db',
-                    id: arg.event._def.extendedProps.ID,
+                    id: arg.event.id,
                     start: dateNoTimezone(arg.event.start),
                     end: dateNoTimezone(arg.event.end)
                 },
                 success: function(){ 
-                    console.log('updated, id:', arg.event._def.extendedProps.ID); 
+                    console.log('updated, id:', arg.event.id); 
                 },
                 error: function(error){
-                    console.log('updated with error, id:', arg.event._def.extendedProps.ID)
+                    console.log('updated with error, id:', arg.event.id)
                     console.log('update error:', error)
                 }
             });
