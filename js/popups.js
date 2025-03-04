@@ -122,7 +122,6 @@ async function Popup(startTime, endTime, availableCarsJson) {
 
 
 async function clickPopup(event) {
-  console.log(event)
   return new Promise((resolve) => {
     // clickDialog the main element.
     const clickDialog = document.createElement("dialog")
@@ -163,7 +162,7 @@ async function clickPopup(event) {
 
     // close dialog button ############################################
     var closeButton = document.createElement('button')
-    closeButton.textContent = 'peruuta'
+    closeButton.textContent = 'takaisin'
     closeButton.setAttribute('id', 'closeButton')
     closeButton.addEventListener('click', () => dialogClose())
 

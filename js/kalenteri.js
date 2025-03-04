@@ -121,7 +121,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             // Popup returns
             // {id: event.id, delete: boolean, update: boolean} // update functionality is not implemented yet or ever?
             const clickPopupReturn = await clickPopup(arg.event)
-            console.log(clickPopupReturn)
 
             if (!clickPopupReturn.id) {
                 return

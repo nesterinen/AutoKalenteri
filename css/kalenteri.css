@@ -37,6 +37,7 @@ div[name="kalenteri_name_css"] .fc-scrollgrid-section.fc-scrollgrid-section-head
     grid-row: 3;
     border-color: #2c3e50;
     border-radius: 5px;
+    border-width: 2px;
 }
 
 #varausPopup button {
@@ -111,6 +112,7 @@ div[name="kalenteri_name_css"] .fc-scrollgrid-section.fc-scrollgrid-section-head
 #clickPopup {
     border-color: #2c3e50;
     border-radius: 5px;
+    border-width: 2px;
 }
 
 #clickPopup {
