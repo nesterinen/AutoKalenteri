@@ -2,7 +2,7 @@
 
 <p align="center"><img src="github/kalenteri.png"/></p>
 
-<h2 align="center"> AutoKalenteri is a simple wordpress plugin for managing car aviability </h2>
+<h2 align="center"> AutoKalenteri is a simple wordpress plugin for managing car availability </h2>
 
 <h3> Functionality: </h3>
 <ul>
@@ -16,10 +16,13 @@
 
 <h3> Download & Installation </h3>
 <a href="https://codeload.github.com/nesterinen/AutoKalenteri/zip/refs/heads/main"> Download(.zip) </a>
-<p>Unzip AutoKalenteri-main folder from the zip file into your wordpress plugins folder</p>
-<p>Then login to your wordpress admin site, and go to the plugins page</p>
+
+<p>Then login to your wordpress admin site, and go to the plugins page ~/wp-admin/plugins.php</p>
+<img src="github/adNewPlug.png">
+<img src="github/upldNewPlug.png">
+<img src="github/brwsNewPlug.png">
+<img src="github/selectNewPlug.png">
 <img src="github/wppluginmarked.png"/>
-<p>Click Activate</p>
 <p>The plugin will then automatically create a <a href="github/wppages.png">page</a> and database <a href="github/table.png">table</a> for the plugin</p>
 
 
