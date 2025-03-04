@@ -7,6 +7,11 @@ function dateToHourMin(date) {
   return timeString[0] + ':' + timeString[1]
 }
 
+function dateToJustDate(date) {
+  const dateString = date.split("T")[0].split("-").reverse().join(".")
+  return dateString
+}
+
 async function Popup(startTime, endTime, availableCarsJson) {
   var startTimeVariable = dateNoTimezone(startTime).split("T")[1].split(".")[0].split(":")  // turn dateobj to string array [0]hours [1]minutes
   var endTimeVariable = dateNoTimezone(endTime).split("T")[1].split(".")[0].split(":")  // turn dateobj to string array [0]hours [1]minutes
@@ -71,7 +76,7 @@ async function Popup(startTime, endTime, availableCarsJson) {
       addButton.removeEventListener('click', () => dialogAdd())
       closeButton.removeEventListener('click', () => dialogClose())
       myDialog.close()
-      resolve(undefined)
+      resolve(null)
     }
 
     // ################################################################
@@ -129,12 +134,18 @@ async function clickPopup(event) {
     const text = document.createTextNode("Varaus")
     header.appendChild(text)
 
-    // times
-    const startText = document.createElement('p')
-    startText.textContent = dateToHourMin(dateNoTimezone(event.start))
+    // event info
+    const titleText = document.createElement('h3')
+    titleText.textContent = event.title
+
+    const dateText = document.createElement('h4')
+    dateText.textContent = dateToJustDate(dateNoTimezone(event.start))
+
+    const timeText = document.createElement('h4')
+    timeText.textContent = dateToHourMin(dateNoTimezone(event.start)) + ' - ' + dateToHourMin(dateNoTimezone(event.end))
 
     const endText = document.createElement('p')
-    endText.textContent = dateToHourMin(dateNoTimezone(event.end))
+    endText.textContent = event._def.extendedProps.varaaja ? event._def.extendedProps.varaaja : 'ei varaajaa'
 
     // delete dialog button ###########################################
     var deleteButton = document.createElement('button')
@@ -145,7 +156,7 @@ async function clickPopup(event) {
     function dialogDelete() {
       deleteButton.removeEventListener('click', () => dialogDelete())
       clickDialog.close()
-      resolve(event.id)
+      resolve({id: event.id, delete: true, update: false})
     }
     // ################################################################
 
@@ -159,14 +170,16 @@ async function clickPopup(event) {
     function dialogClose() {
       closeButton.removeEventListener('click', () => dialogClose())
       clickDialog.close()
-      resolve(undefined)
+      resolve({id: null, delete: false, update: false})
     }
     // ################################################################
 
 
     // Finalize creating element
     clickDialog.appendChild(header)
-    clickDialog.appendChild(startText)
+    clickDialog.appendChild(titleText)
+    clickDialog.appendChild(dateText)
+    clickDialog.appendChild(timeText)
     clickDialog.appendChild(endText)
     clickDialog.appendChild(deleteButton)
     clickDialog.appendChild(closeButton)

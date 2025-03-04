@@ -1,9 +1,5 @@
 console.log('kalenteri.js loaded')
 
-/*
- EVENT ID changed to id => stuff broke, its late fix tomorrow
-*/
-
 document.addEventListener('DOMContentLoaded', async () => {
     let calendarEl = document.getElementById(my_ajax_object.element_name); // page needs div with id kalenteriElement
     if (!calendarEl) return; // if cant get elem then its useless to do the rest.
@@ -82,7 +78,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             if (calendar.view.type === 'dayGridMonth') { endDate.setDate(arg.end.getDate() - 1) }
 
             // Popup returns
-            // {value: select.value, input: varaajaInput.value, start: startDateObj, end: endDateObj}) | undefined
+            // {value: select.value, input: varaajaInput.value, start: startDateObj, end: endDateObj}) | null
             var popUpResult = await Popup(arg.start, endDate, availableCarsJson)
 
             if (popUpResult) {
@@ -105,7 +101,6 @@ document.addEventListener('DOMContentLoaded', async () => {
                 success: function(response){
                     calendar.addEvent({
                     id: response.data.id,
-                    publicId: response.data.id,
                     title: title,
                     start: reservationStartTime,
                     end: reservationEndTime,
@@ -123,12 +118,17 @@ document.addEventListener('DOMContentLoaded', async () => {
         },
 
         eventClick: async function(arg) {
-            console.log(arg.event)
+            // Popup returns
+            // {id: event.id, delete: boolean, update: boolean} // update functionality is not implemented yet or ever?
             const clickPopupReturn = await clickPopup(arg.event)
             console.log(clickPopupReturn)
 
-            if (clickPopupReturn) {
-                const deleteId = clickPopupReturn
+            if (!clickPopupReturn.id) {
+                return
+            }
+
+            if (clickPopupReturn.delete) {
+                const deleteId = clickPopupReturn.id
                 jQuery.ajax({
                     type: "post",
                     dataType: "json",
