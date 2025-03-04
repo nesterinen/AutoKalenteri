@@ -1,8 +1,13 @@
-async function Popup(startTime, endTime, availableCarsJson) {
-  function dateNoTimezone(date) {
-      return new Date(date.getTime() - (date.getTimezoneOffset() * 60000)).toISOString();
-  }
+function dateNoTimezone(date) {
+  return new Date(date.getTime() - (date.getTimezoneOffset() * 60000)).toISOString();
+}
 
+function dateToHourMin(date) {
+  const timeString = date.split("T")[1].split(".")[0].split(":")
+  return timeString[0] + ':' + timeString[1]
+}
+
+async function Popup(startTime, endTime, availableCarsJson) {
   var startTimeVariable = dateNoTimezone(startTime).split("T")[1].split(".")[0].split(":")  // turn dateobj to string array [0]hours [1]minutes
   var endTimeVariable = dateNoTimezone(endTime).split("T")[1].split(".")[0].split(":")  // turn dateobj to string array [0]hours [1]minutes
 
@@ -107,5 +112,64 @@ async function Popup(startTime, endTime, availableCarsJson) {
     myDialog.appendChild(addButton)
     myDialog.appendChild(closeButton)
     myDialog.showModal()
+  })
+}
+
+
+async function clickPopup(event) {
+  console.log(event)
+  return new Promise((resolve) => {
+    // clickDialog the main element.
+    const clickDialog = document.createElement("dialog")
+    clickDialog.setAttribute('id', 'clickPopup')
+    document.body.appendChild(clickDialog)
+
+    // Header txt
+    const header = document.createElement('h2')
+    const text = document.createTextNode("Varaus")
+    header.appendChild(text)
+
+    // times
+    const startText = document.createElement('p')
+    startText.textContent = dateToHourMin(dateNoTimezone(event.start))
+
+    const endText = document.createElement('p')
+    endText.textContent = dateToHourMin(dateNoTimezone(event.end))
+
+    // delete dialog button ###########################################
+    var deleteButton = document.createElement('button')
+    deleteButton.textContent = 'poista'
+    deleteButton.setAttribute('id', 'deleteButton')
+    deleteButton.addEventListener('click', () => dialogDelete())
+
+    function dialogDelete() {
+      deleteButton.removeEventListener('click', () => dialogDelete())
+      clickDialog.close()
+      resolve(event.id)
+    }
+    // ################################################################
+
+
+    // close dialog button ############################################
+    var closeButton = document.createElement('button')
+    closeButton.textContent = 'peruuta'
+    closeButton.setAttribute('id', 'closeButton')
+    closeButton.addEventListener('click', () => dialogClose())
+
+    function dialogClose() {
+      closeButton.removeEventListener('click', () => dialogClose())
+      clickDialog.close()
+      resolve(undefined)
+    }
+    // ################################################################
+
+
+    // Finalize creating element
+    clickDialog.appendChild(header)
+    clickDialog.appendChild(startText)
+    clickDialog.appendChild(endText)
+    clickDialog.appendChild(deleteButton)
+    clickDialog.appendChild(closeButton)
+    clickDialog.showModal()
   })
 }

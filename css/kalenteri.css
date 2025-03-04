@@ -1,9 +1,36 @@
+/* Calendar styling */
 div[name="kalenteri_name_css"] {
     max-width: 1100px;
     max-height: 702px;
     margin: 0 auto;
 }
 
+div[name="kalenteri_name_css"] table {
+    background-color: transparent;
+}
+
+div[name="kalenteri_name_css"] .fc-day {
+    border-color: #ddd;
+}
+
+div[name="kalenteri_name_css"] .fc-timegrid-slot {
+    background-color: transparent;
+}
+
+div[name="kalenteri_name_css"] .fc-header-toolbar button{
+    background-color: #5baa00;
+}
+
+div[name="kalenteri_name_css"] .fc-scrollgrid-section.fc-scrollgrid-section-header {
+    max-height: 32px;
+}
+
+div[name="kalenteri_name_css"] .fc-scrollgrid-section.fc-scrollgrid-section-header .fc-scroller-harness {
+    max-height: 32px;
+}
+
+
+/* varausPopup styling */
 #varausPopup {
     display: grid;
     grid-template-columns: 2;
@@ -57,30 +84,6 @@ div[name="kalenteri_name_css"] {
     color: white;
 }
 
-div[name="kalenteri_name_css"] table {
-    background-color: transparent;
-}
-
-div[name="kalenteri_name_css"] .fc-day {
-    border-color: #ddd;
-}
-
-div[name="kalenteri_name_css"] .fc-timegrid-slot {
-    background-color: transparent;
-}
-
-div[name="kalenteri_name_css"] .fc-header-toolbar button{
-    background-color: #5baa00;
-}
-
-div[name="kalenteri_name_css"] .fc-scrollgrid-section.fc-scrollgrid-section-header {
-    max-height: 32px;
-}
-
-div[name="kalenteri_name_css"] .fc-scrollgrid-section.fc-scrollgrid-section-header .fc-scroller-harness {
-    max-height: 32px;
-}
-
 #popupStartEndTimes {
     text-align: center;
     margin-top: 10px;
@@ -90,4 +93,46 @@ div[name="kalenteri_name_css"] .fc-scrollgrid-section.fc-scrollgrid-section-head
 #popupStartEndTimes input{
     margin-left: 5px;
     margin-right: 5px;
+}
+
+
+/* clickPopup styling */
+
+/*
+#clickPopup {
+    display: grid;
+    grid-template-columns: 2;
+    grid-row: 3;
+    border-radius: 5px;
+}
+*/
+
+#clickPopup {
+    text-align: center;
+}
+
+
+#clickPopup button {
+    margin: 5px;
+    padding: 5px;
+
+    border: 1px solid transparent;
+    border-radius: 5px;
+    transition: 0.3s;
+}
+
+#clickPopup #closeButton {
+    background-color: #d0d0d6;
+}
+
+#clickPopup #closeButton:hover {
+    background-color: #9e9ea3;
+}
+
+#clickPopup #deleteButton {
+    background-color: #aa1c00;
+}
+
+#clickPopup #deleteButton:hover {
+    background-color: #8a1801;
 }

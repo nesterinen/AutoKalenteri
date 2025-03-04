@@ -1,5 +1,9 @@
 console.log('kalenteri.js loaded')
 
+/*
+ EVENT ID changed to id => stuff broke, its late fix tomorrow
+*/
+
 document.addEventListener('DOMContentLoaded', async () => {
     let calendarEl = document.getElementById(my_ajax_object.element_name); // page needs div with id kalenteriElement
     if (!calendarEl) return; // if cant get elem then its useless to do the rest.
@@ -33,7 +37,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             carReservationsJSON = response.data.map(obj => {
                 return {...obj, color: colorCase(obj.title), extendedProps: {ID: obj.id, varaaja:obj.varaaja}}
             })
-            console.log(carReservationsJSON)
+            //console.log(carReservationsJSON)
         },
         error: function(jqXHR, error, errorThrown){
           if(jqXHR.status&&jqXHR.status==200){
@@ -100,7 +104,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 },
                 success: function(response){
                     calendar.addEvent({
-                    ID: response.data.id,
+                    id: response.data.id,
                     publicId: response.data.id,
                     title: title,
                     start: reservationStartTime,
@@ -118,25 +122,30 @@ document.addEventListener('DOMContentLoaded', async () => {
             calendar.unselect()
         },
 
-        eventClick: function(arg) {
-            if (confirm('Haluatko varmasti poistaa tämän varauksen?')) {
-            jQuery.ajax({
-                type: "post",
-                dataType: "json",
-                url: my_ajax_object.ajax_url,
-                data: {
-                    action:'delete_db',
-                    id: arg.event._def.extendedProps.ID,
-                },
-                success: function(){ 
-                    arg.event.remove()
-                    console.log('deleted, id:', arg.event._def.extendedProps.ID); 
-                },
-                error: function(error){
-                    console.log('deleted with error, id:', arg.event._def.extendedProps.ID);
-                    console.log('delete error:', error)
-                }
-            });
+        eventClick: async function(arg) {
+            console.log(arg.event)
+            const clickPopupReturn = await clickPopup(arg.event)
+            console.log(clickPopupReturn)
+
+            if (clickPopupReturn) {
+                const deleteId = clickPopupReturn
+                jQuery.ajax({
+                    type: "post",
+                    dataType: "json",
+                    url: my_ajax_object.ajax_url,
+                    data: {
+                        action:'delete_db',
+                        id: deleteId //arg.event._def.extendedProps.ID,
+                    },
+                    success: function(){ 
+                        arg.event.remove()
+                        console.log('deleted, id:', deleteId ); 
+                    },
+                    error: function(error){
+                        console.log('deleted with error, id:', deleteId );
+                        console.log('delete error:', error)
+                    }
+                });
             }
         },
 
