@@ -132,7 +132,10 @@ async function clickPopup(event) {
     const text = document.createTextNode("Varaus")
     header.appendChild(text)
 
-    // event info
+    // event info  ####################################################
+    const eventInfo = document.createElement('div')
+    eventInfo.setAttribute('id', 'popupEventInfo')
+
     const titleText = document.createElement('h3')
     titleText.textContent = event.title
 
@@ -142,8 +145,15 @@ async function clickPopup(event) {
     const timeText = document.createElement('h4')
     timeText.textContent = dateToHourMin(dateNoTimezone(event.start)) + ' - ' + dateToHourMin(dateNoTimezone(event.end))
 
-    const endText = document.createElement('p')
+    const endText = document.createElement('h3')
     endText.textContent = event._def.extendedProps.varaaja ? event._def.extendedProps.varaaja : 'ei varaajaa'
+    
+    eventInfo.appendChild(titleText)
+    eventInfo.appendChild(dateText)
+    eventInfo.appendChild(timeText)
+    eventInfo.appendChild(endText)
+    // ################################################################
+
 
     // delete dialog button ###########################################
     var deleteButton = document.createElement('button')
@@ -177,10 +187,13 @@ async function clickPopup(event) {
 
     // Finalize creating element
     clickDialog.appendChild(header)
-    clickDialog.appendChild(titleText)
-    clickDialog.appendChild(dateText)
-    clickDialog.appendChild(timeText)
-    clickDialog.appendChild(endText)
+
+    clickDialog.appendChild(eventInfo)
+    //clickDialog.appendChild(titleText)
+    //clickDialog.appendChild(dateText)
+    //clickDialog.appendChild(timeText)
+    //clickDialog.appendChild(endText)
+
     clickDialog.appendChild(deleteButton)
     clickDialog.appendChild(closeButton)
     clickDialog.showModal()

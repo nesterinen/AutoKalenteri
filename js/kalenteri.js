@@ -81,8 +81,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             // {value: select.value, input: varaajaInput.value, start: startDateObj, end: endDateObj}) | null
             const popUpResult = await Popup(arg.start, endDate, availableCarsJson)
 
-            console.log(popUpResult)
-
             if (popUpResult) {
                 var title = popUpResult.value
                 var varaaja = popUpResult.input

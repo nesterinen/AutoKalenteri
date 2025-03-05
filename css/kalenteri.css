@@ -100,15 +100,22 @@ div[name="kalenteri_name_css"] .fc-scrollgrid-section.fc-scrollgrid-section-head
 
 /* clickPopup styling */
 #clickPopup {
+    display: grid;
+
     border-color: #2c3e50;
     border-radius: 5px;
     border-width: 2px;
-}
-
-#clickPopup {
     text-align: center;
-}
 
+    /*
+    grid-template: 
+                "a a"
+                "b b"
+                "c c"
+                "d d"
+                "e e";
+    */
+}
 
 #clickPopup button {
     margin: 5px;
@@ -128,16 +135,17 @@ div[name="kalenteri_name_css"] .fc-scrollgrid-section.fc-scrollgrid-section-head
 }
 
 #clickPopup #deleteButton {
-    background-color: #aa1c00;
+    background-color: #d12c0a;
 }
 
 #clickPopup #deleteButton:hover {
-    background-color: #8a1801;
+    background-color: #ad2307;
 }
 
 #clickPopup h4 {
     margin-top: 0;
     margin-bottom: 5px;
+    color: #64646d;
 }
 
 #clickPopup h3 {
