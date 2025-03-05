@@ -1,4 +1,4 @@
-<h1 align="center"> AutoKalenteri - Wordpress plugin for car reservations </h1>
+<h1 align="center"> AutoKalenteri - Wordpress plugin for Wörkkis työpaja </h1>
 
 <p align="center"><img src="github/kalenteri.png"/></p>
 
