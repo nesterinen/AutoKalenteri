@@ -7,6 +7,7 @@ div[name="kalenteri_name_css"] {
 
 div[name="kalenteri_name_css"] table {
     background-color: transparent;
+    text-decoration: none;
 }
 
 div[name="kalenteri_name_css"] .fc-day {
