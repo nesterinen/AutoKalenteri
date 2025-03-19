@@ -26,6 +26,8 @@ $available_cars = array(
     'Henkilöauto'=>'#648FFF',
     'Pakettiauto'=>'#785EF0',
     'Pikkubussi'=>'#FE6100',
+    'Peräkärri' => '#DC267F',
+    'Kuomukärri' => '#FFB000'
 );
 
 function get_table_name(){
