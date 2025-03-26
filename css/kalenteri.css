@@ -153,3 +153,41 @@ div[name="kalenteri_name_css"] .fc-scrollgrid-section.fc-scrollgrid-section-head
     margin-top: 0;
     margin-bottom: 10px;
 }
+
+
+/* SeriesPopup styling */
+.seriesPopup {
+    border-color: #2c3e50;
+    border-radius: 5px;
+    border-width: 2px;
+}
+
+.seriesPopup p {
+    text-align: center;
+    margin-bottom: 3px;
+    margin-top: 3px;
+}
+
+.seriesPopup select {
+    text-align: center;
+    width: 100%;
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
+    margin-bottom: 1em;
+}
+
+.popTimeSpan {
+    display: grid;
+    grid-template-columns: 45% 10% 45%;
+}
+
+.popDaySelect {
+    display: flex;
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+
+.popDaySelect div {
+    margin: auto;
+    border-bottom: 1px solid #2c3e50;
+}

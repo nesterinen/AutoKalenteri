@@ -12,6 +12,92 @@ function dateToJustDate(date) {
   return dateString
 }
 
+async function SeriesPopup(startTime, endTime, availableCarsJson) {
+  return new Promise((resolve) => {
+    const startTimeVariable = dateNoTimezone(startTime).split("T")[1].split(".")[0].split(":")  // turn dateobj to string array [0]hours [1]minutes
+    const endTimeVariable = dateNoTimezone(endTime).split("T")[1].split(".")[0].split(":")  // turn dateobj to string array [0]hours [1]minutes
+    
+    const dialog = document.createElement('dialog')
+    //dialog.setAttribute('id', 'varausPopup')
+    dialog.classList.add('seriesPopup')
+    dialog.innerHTML = `
+      <h2>Auton sarja varaus</h2>
+
+      <select id='popCarSelect'>
+      </select>
+
+      <div>
+        <p>Aikaväli</p>
+        <div class='popTimeSpan'>
+          <input type='date' id='popDateStartTime'/>
+          <p>:</p>
+          <input type='date' id='popDateEndTime'/>
+        </div>
+      </div>
+
+      <div class='popDaySelect'>
+        <div>
+          <input type='checkbox' id='cbMa'/>
+          <label for='cbMa'>ma</label>
+        </div>
+        <div>
+          <input type='checkbox' id='cbTi'/>
+          <label for='cbTi'>ti</label>
+        </div>
+        <div>
+          <input type='checkbox' id='cbKe'/>
+          <label for='cbKe'>ke</label>
+        </div>
+        <div>
+          <input type='checkbox' id='cbTo'/>
+          <label for='cbTo'>to</label>
+        </div>
+        <div>
+          <input type='checkbox' id='cbPe'/>
+          <label for='cbPe'>pe</label>
+        </div>
+      </div>
+
+      <div>
+        <p>Kello</p>
+        <div class='popTimeSpan'>
+          <input type='time' id='popTimeStartTime' value='08:00'/>
+          <p>:</p>
+          <input type='time' id='popTimeEndTime' value='13:00'/>
+        </div>
+      </div>
+
+
+      <button class='closeButton'>close</button>
+    `
+
+    const select = dialog.querySelector('#popCarSelect')
+    Object.keys(availableCarsJson).map(carName => {
+      const autoSelectElem = document.createElement('option')
+      autoSelectElem.appendChild(document.createTextNode(carName))
+      select.appendChild(autoSelectElem)
+    })
+
+    //dialog.querySelector('#popStartTime').setAttribute('value', `${startTimeVariable[0]}:${startTimeVariable[1]}`)
+    //dialog.querySelector('#popEndTime').setAttribute('value', `${endTimeVariable[0]}:${endTimeVariable[1]}`)
+
+    const closeButton = dialog.querySelector('.closeButton')
+    closeButton.addEventListener('click', () => {
+      closeButtonFunction()
+    })
+
+    
+    function closeButtonFunction(){
+      closeButton.removeEventListener('click', () => closeButtonFunction())
+      dialog.remove()
+      resolve(null)
+    }
+    
+    document.body.appendChild(dialog)
+    dialog.showModal()
+  })
+}
+
 async function Popup(startTime, endTime, availableCarsJson) {
   return new Promise((resolve) => {
     var startTimeVariable = dateNoTimezone(startTime).split("T")[1].split(".")[0].split(":")  // turn dateobj to string array [0]hours [1]minutes

@@ -221,4 +221,17 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
 
     calendar.render();
+
+
+    // # testArea
+    //SeriesPopup(new Date(), new Date(), availableCarsJson)
+    /*
+    const seriesButton = document.createElement('button')
+    seriesButton.innerHTML = 'Sarja varaus (PROTOTYPE)'
+    seriesButton.addEventListener('click', async () => {
+        const result = await SeriesPopup(new Date(), new Date(), availableCarsJson)
+        console.log('series result', result)
+    })
+    calendarEl.appendChild(seriesButton)
+    */
 })
