@@ -12,13 +12,29 @@ function dateToJustDate(date) {
   return dateString
 }
 
-async function SeriesPopup(startTime, endTime, availableCarsJson) {
+async function SeriesPopup(startDateObj, endDateObj,availableCarsJson) {
   return new Promise((resolve) => {
-    const startTimeVariable = dateNoTimezone(startTime).split("T")[1].split(".")[0].split(":")  // turn dateobj to string array [0]hours [1]minutes
-    const endTimeVariable = dateNoTimezone(endTime).split("T")[1].split(".")[0].split(":")  // turn dateobj to string array [0]hours [1]minutes
+    //const startTimeVariable = dateNoTimezone(startTime).split("T")[1].split(".")[0].split(":")  // turn dateobj to string array [0]hours [1]minutes
+    //const endTimeVariable = dateNoTimezone(endTime).split("T")[1].split(".")[0].split(":")  // turn dateobj to string array [0]hours [1]minutes
+
+    function addDays(date, days) {
+      var result = new Date(date);
+      result.setDate(result.getDate() + days);
+      return result;
+    }
     
+    // start datetime
+    const [startDate, startTime] = dateNoTimezone(startDateObj).split("T")
+    const [sYear, sMonth, sDay] = startDate.split('-')
+    const [sHour, sMinute] = startTime.split(':')
+
+    // end datetime
+    const [endDate, endTime] = dateNoTimezone(endDateObj).split("T")
+    const [eYear, eMonth, eDay] = endDate.split('-')
+    const [eHour, eMinute] = endTime.split(':')
+    
+
     const dialog = document.createElement('dialog')
-    //dialog.setAttribute('id', 'varausPopup')
     dialog.classList.add('seriesPopup')
     dialog.innerHTML = `
       <h2>Auton sarja varaus</h2>
@@ -29,31 +45,31 @@ async function SeriesPopup(startTime, endTime, availableCarsJson) {
       <div>
         <p>Aikaväli</p>
         <div class='popTimeSpan'>
-          <input type='date' id='popDateStartTime'/>
+          <input type='date' id='popDateStartTime' value='${sYear}-${sMonth}-${sDay}'/>
           <p>:</p>
-          <input type='date' id='popDateEndTime'/>
+          <input type='date' id='popDateEndTime' value='${eYear}-${eMonth}-${eDay}'/>
         </div>
       </div>
 
       <div class='popDaySelect'>
         <div>
-          <input type='checkbox' id='cbMa'/>
+          <input type='checkbox' id='cbMa' class='cbDay'/>
           <label for='cbMa'>ma</label>
         </div>
         <div>
-          <input type='checkbox' id='cbTi'/>
+          <input type='checkbox' id='cbTi' class='cbDay'/>
           <label for='cbTi'>ti</label>
         </div>
         <div>
-          <input type='checkbox' id='cbKe'/>
+          <input type='checkbox' id='cbKe' class='cbDay'/>
           <label for='cbKe'>ke</label>
         </div>
         <div>
-          <input type='checkbox' id='cbTo'/>
+          <input type='checkbox' id='cbTo' class='cbDay'/>
           <label for='cbTo'>to</label>
         </div>
         <div>
-          <input type='checkbox' id='cbPe'/>
+          <input type='checkbox' id='cbPe' class='cbDay'/>
           <label for='cbPe'>pe</label>
         </div>
       </div>
@@ -63,13 +79,16 @@ async function SeriesPopup(startTime, endTime, availableCarsJson) {
         <div class='popTimeSpan'>
           <input type='time' id='popTimeStartTime' value='08:00'/>
           <p>:</p>
-          <input type='time' id='popTimeEndTime' value='13:00'/>
+          <input type='time' id='popTimeEndTime' value='10:00'/>
         </div>
       </div>
 
 
       <button class='closeButton'>close</button>
+      <button class='addButton'>add</button>
     `
+    //<input type='time' id='popTimeStartTime' value='${sHour}:${sMinute}'/>
+    //<input type='time' id='popTimeEndTime' value='${eHour}:${eMinute}'/>
 
     const select = dialog.querySelector('#popCarSelect')
     Object.keys(availableCarsJson).map(carName => {
@@ -78,20 +97,69 @@ async function SeriesPopup(startTime, endTime, availableCarsJson) {
       select.appendChild(autoSelectElem)
     })
 
-    //dialog.querySelector('#popStartTime').setAttribute('value', `${startTimeVariable[0]}:${startTimeVariable[1]}`)
-    //dialog.querySelector('#popEndTime').setAttribute('value', `${endTimeVariable[0]}:${endTimeVariable[1]}`)
-
     const closeButton = dialog.querySelector('.closeButton')
     closeButton.addEventListener('click', () => {
-      closeButtonFunction()
-    })
-
-    
-    function closeButtonFunction(){
       closeButton.removeEventListener('click', () => closeButtonFunction())
       dialog.remove()
       resolve(null)
-    }
+    })
+
+    const addButton = dialog.querySelector('.addButton')
+    addButton.addEventListener('click', () => {
+      //addButton.removeEventListener('click', () => closeButtonFunction())
+
+      // get values from dates and times TODO
+      const startDateText = `${dialog.querySelector('#popDateStartTime').value}T${dialog.querySelector('#popTimeStartTime').value}:00`
+      const startDateInput = new Date(startDateText)
+
+      const endDateText = `${dialog.querySelector('#popDateEndTime').value}T${dialog.querySelector('#popTimeEndTime').value}:00`
+      const endDateInput = new Date(endDateText)
+
+      const checkboxElements = dialog.getElementsByClassName('cbDay')
+      let daysChecked = []
+      for (const checkbox of checkboxElements) {
+        daysChecked.push(checkbox.checked)
+      }
+      daysChecked.push(false) // saturday
+      daysChecked.push(false) // sunday
+
+      // if no days are checked
+      if(daysChecked.reduce((prev, curr) => prev + curr) === 0){
+        dialog.querySelector('.popDaySelect').style = 'outline: solid red;'
+        return
+      } else {
+        dialog.querySelector('.popDaySelect').style = 'outline: none;'
+      }
+
+      const diffTime = startDateInput - endDateInput
+
+      if(diffTime >= 0){
+        dialog.querySelector('#popDateEndTime').style = 'outline: solid red;'
+        return
+      } else {
+        dialog.querySelector('#popDateEndTime').style = 'outline: none;'
+      }
+
+      const diffDays = Math.floor(-diffTime / (1000 * 60 * 60 * 24)) // time difference in days.
+
+      if(diffDays === 0){
+        dialog.querySelector('#popDateEndTime').style = 'outline: solid red;'
+        return
+      } else {
+        dialog.querySelector('#popDateEndTime').style = 'outline: none;'
+      }
+
+      // loop through days froms start to end
+      const arrayOfDates = []
+      for (let i = 1; i <= diffDays; i++){
+        const newDate = addDays(startDateInput, i)
+        if(daysChecked[ newDate.getDay() - 1 ]){
+          arrayOfDates.push(newDate)
+        }
+      }
+
+      console.log('dateArr:', arrayOfDates)
+    })
     
     document.body.appendChild(dialog)
     dialog.showModal()
