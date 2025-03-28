@@ -2,9 +2,10 @@
 /**
  * Plugin Name: AutoKalenteri
  * Description: Kalenteri autojen varaamista varten.
- * Version: 1.0
+ * Version: 1.1
  * Author: Aleksei Nesterinen
- * Author URI: https://github.com/nesterinen/AutoKalenteri/tree/main?tab=readme-ov-file
+ * Author URI: https://github.com/nesterinen
+ * Plugin URI: https://codeload.github.com/nesterinen/AutoKalenteri/zip/refs/heads/main
  */
 
 if (!defined('ABSPATH')) {
@@ -12,29 +13,29 @@ if (!defined('ABSPATH')) {
 }
  
 // global vars
-global $page_name;
-$page_name = 'Autovaraukset';
+global $autovaraus_page_name;
+$autovaraus_page_name = 'Autovaraukset';
 
-global $table_name;
-$table_name = 'auto_kalenteri';
+global $autovaraus_table_name;
+$autovaraus_table_name = 'auto_kalenteri';
 
-global $element_name;
-$element_name = 'kalenteriElement';
+global $autovaraus_element_name;
+$autovaraus_element_name = 'kalenteriElement';
 
 global $available_cars;
-$available_cars = array(
+$available_cars = [
     'Henkilöauto'=>'#648FFF',
     'Pakettiauto'=>'#785EF0',
     'Pikkubussi'=>'#FE6100',
     'Peräkärri' => '#DC267F',
     'Kuomukärri' => '#FFB000'
-);
+];
 
 function get_table_name(){
     global $wpdb;
-    global $table_name;
+    global $autovaraus_table_name;
     
-    return $wpdb->prefix . $table_name;
+    return $wpdb->prefix . $autovaraus_table_name;
 }
 
 // logging function for debugging, wp debug has to be enabled in config, delete later
@@ -62,15 +63,15 @@ register_activation_hook(__FILE__, 'kalenteri_plugin_activation');
 
 // create page for kalenteri
 function kalenteri_plugin_activation_page() {
-    global $page_name;
-    global $element_name;
+    global $autovaraus_page_name;
+    global $autovaraus_element_name;
 
     // get_page_by_title() is Deprecated so use wp_query.
     // if page for calendar does not exist then create page.
     $query = new WP_Query(
         array(
             'post_type'              => 'page',
-            'title'                  => $page_name,
+            'title'                  => $autovaraus_page_name,
             'post_status'            => 'all',
             'posts_per_page'         => 1,
             'no_found_rows'          => true,
@@ -87,10 +88,10 @@ function kalenteri_plugin_activation_page() {
         return;
     }
 
-    $page_content = '<div id=' . $element_name . '></div>';
+    $page_content = '<div id=' . $autovaraus_element_name . '></div>';
     
     $kalenteri_page = array(
-        'post_title' => wp_strip_all_tags($page_name),
+        'post_title' => wp_strip_all_tags($autovaraus_page_name),
         'post_content' => $page_content,
         'post_status' => 'publish',
         'post_author' => 1,
@@ -106,22 +107,29 @@ include(plugin_dir_path(__FILE__) . 'ajax/kalenteri_ajax.php');
 
 // load fullcalender, styles, kalenteri and ajax variable for kalenteri.
 function load_kalenteri(){
-    global $page_name;
-    global $element_name;
+    global $autovaraus_page_name;
+    global $autovaraus_element_name;
     global $available_cars;
-    if(is_page($page_name)){
+    if(is_page($autovaraus_page_name)){
         wp_register_script('fullcalendar', plugin_dir_url( __FILE__ ) . "js/fullcalendar/dist/index.global.js", array( 'jquery' ), null, true);
-        wp_enqueue_script('fullcalendar');
         
         wp_enqueue_style('wsp-styles', plugin_dir_url(__FILE__) . 'css/kalenteri.css');
         
-        wp_register_script('popups-script', plugin_dir_url(__FILE__) . 'js/popups.js', null, null);
-        wp_enqueue_script( 'ajax-script', plugin_dir_url(__FILE__) . 'js/kalenteri.js', array('jquery', 'popups-script') );
-        wp_localize_script( 'ajax-script', 'my_ajax_object', array( 
+        wp_register_script('popups-script', plugin_dir_url(__FILE__) . 'js/popups.js', [], null);
+        wp_enqueue_script( 
+            'ajax-script', 
+            plugin_dir_url(__FILE__) . 'js/kalenteri.js', 
+            array('jquery', 'popups-script', 'fullcalendar')
+        );
+        wp_localize_script( 
+            'ajax-script', 
+            'my_ajax_object', 
+            array( 
             'ajax_url' => admin_url( 'admin-ajax.php' ),
-            'element_name' => $element_name,
+            'element_name' => $autovaraus_element_name,
             'available_cars' => $available_cars
-        ));
+            )
+        );
     }
 }
 add_action('wp_enqueue_scripts', 'load_kalenteri');

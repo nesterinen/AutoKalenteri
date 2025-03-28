@@ -1,3 +1,4 @@
+
 console.log('kalenteri.js loaded')
 
 document.addEventListener('DOMContentLoaded', async () => {
@@ -28,7 +29,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         type: "POST",
         dataType: "json",
         url: my_ajax_object.ajax_url,
-        data: { action:'get_all' },
+        data: { action:'auto_get_all' },
         success: function(response){
             carReservationsJSON = response.data.map(obj => {
                 return {...obj, color: colorCase(obj.title), extendedProps: {varaaja:obj.varaaja}}
@@ -92,7 +93,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                     dataType: "json",
                     url: my_ajax_object.ajax_url,
                     data: {
-                        action:'post_db',
+                        action:'auto_post_db',
                         title: title,
                         start: dateNoTimezone(reservationStartTime),
                         end: dateNoTimezone(reservationEndTime),
@@ -133,7 +134,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                     dataType: "json",
                     url: my_ajax_object.ajax_url,
                     data: {
-                        action:'delete_db',
+                        action:'auto_delete_db',
                         id: deleteId
                     },
                     success: function(){ 
@@ -155,7 +156,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 dataType: "json",
                 url: my_ajax_object.ajax_url,
                 data: {
-                    action:'update_db',
+                    action:'auto_update_db',
                     id: arg.event.id,
                     start: dateNoTimezone(arg.event.start),
                     end: dateNoTimezone(arg.event.end)
@@ -180,7 +181,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 dataType: "json",
                 url: my_ajax_object.ajax_url,
                 data: {
-                    action:'update_db',
+                    action:'auto_update_db',
                     id: arg.event.id,
                     start: dateNoTimezone(arg.event.start),
                     end: dateNoTimezone(arg.event.end)

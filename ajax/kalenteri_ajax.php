@@ -4,7 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }
 
-function get_all() {
+function auto_get_all() {
     global $wpdb;
     $wp_table_name = get_table_name();
 
@@ -20,10 +20,10 @@ function get_all() {
         wp_send_json_error(null, 500);
     }
 }
-add_action('wp_ajax_get_all', 'get_all');
-add_action( 'wp_ajax_nopriv_get_all', 'get_all');
+add_action('wp_ajax_auto_get_all', 'auto_get_all');
+add_action( 'wp_ajax_nopriv_auto_get_all', 'auto_get_all');
 
-function post_db() {
+function auto_post_db() {
     global $wpdb;
     $wp_table_name = get_table_name();
   
@@ -47,10 +47,10 @@ function post_db() {
             wp_send_json_success(array("id" => $wpdb->insert_id), 200);
     }
 }
-add_action('wp_ajax_post_db', 'post_db');
-add_action( 'wp_ajax_nopriv_post_db', 'post_db');
+add_action('wp_ajax_auto_post_db', 'auto_post_db');
+add_action( 'wp_ajax_nopriv_auto_post_db', 'auto_post_db');
   
-function delete_db() {
+function auto_delete_db() {
     global $wpdb;
     $wp_table_name = get_table_name();
 
@@ -69,10 +69,10 @@ function delete_db() {
             wp_send_json_success(array("message" => "wpdb delete completed successfully"), 200);
     }
 }
-add_action('wp_ajax_delete_db', 'delete_db');
-add_action( 'wp_ajax_nopriv_delete_db', 'delete_db');
+add_action('wp_ajax_auto_delete_db', 'auto_delete_db');
+add_action( 'wp_ajax_nopriv_auto_delete_db', 'auto_delete_db');
   
-function update_db() {
+function auto_update_db() {
     global $wpdb;
     $wp_table_name = get_table_name();
 
@@ -94,7 +94,7 @@ function update_db() {
             wp_send_json_success(array("message" => "wpdb update completed successfully"), 200);
     }
 }
-add_action('wp_ajax_update_db', 'update_db');
-add_action( 'wp_ajax_nopriv_update_db', 'update_db');
+add_action('wp_ajax_auto_update_db', 'auto_update_db');
+add_action( 'wp_ajax_nopriv_auto_update_db', 'auto_update_db');
 
 ?>
