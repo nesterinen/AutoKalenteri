@@ -208,7 +208,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
                     varaajaTextElemt = document.createElement('p')
                     varaajaTextElemt.setAttribute('id', 'eventparagraph')
-                    const text = document.createTextNode(varaaja)
+                    const text = document.createTextNode(varaaja.split('::')[0])
                     varaajaTextElemt.appendChild(text)
 
                     elements[0].appendChild(varaajaTextElemt)    
@@ -228,9 +228,28 @@ document.addEventListener('DOMContentLoaded', async () => {
     // 1000ms * 60 seconds * 60 minutes * 3 hours
     const threeHours = 1000 * 60 * 60 * 3
     const oneDay = 1000 * 60 * 60 * 24
-    SeriesPopup(new Date(), new Date(Date.now() + threeHours + oneDay*7), availableCarsJson).then(value => 
-        console.log(value)
-    )
+    SeriesPopup(new Date(), new Date(Date.now() + threeHours + oneDay*7), availableCarsJson).then(value => {
+        if(value === null) return;
+
+        jQuery.ajax({
+            type: "post",
+            dataType: "json",
+            url: my_ajax_object.ajax_url,
+            data: {
+                action:'auto_post_db_multi',
+                varaaja: value.varaaja,
+                title: value.title,
+                dates: value.dates
+            },
+            success: function(resp){ 
+                console.log('multi Resp:', resp); 
+            },
+            error: function(error){
+                console.log('updated with error, id:', arg.event.id)
+                console.log('update error:', error)
+            }
+        });
+    })
 
     const seriesButton = document.createElement('button')
     seriesButton.innerHTML = 'Sarja varaus (PROTOTYPE)'

@@ -172,25 +172,35 @@ async function SeriesPopup(startDateObj, endDateObj,availableCarsJson) {
       for (let i = 1; i <= diffDays; i++){
         const newDate = addDays(startDateInput, i)
         if(daysChecked[ newDate.getDay() - 1 ]){
-          const newDateEnd = addDays(endDateInput, i)
+          const newDateEnd = new Date(newDate)//addDays(endDateInput, i)
+          const [eHours, eMins] = endClock.split(':')
+          newDateEnd.setHours(parseInt(eHours))
+          newDateEnd.setMinutes(parseInt(eMins))
           arrayOfDates.push({
-            start: newDate,
-            end: newDateEnd
+            start: dateNoTimezone(newDate),//newDate,
+            end: dateNoTimezone(newDateEnd)//newDateEnd
           })
         }
       }
 
-      const varaaja = dialog.querySelector('.popSarjaVaraaja')
-      if(varaaja.value === ''){
-        varaaja.style = 'outline: solid red;'
+      if(arrayOfDates.length === 0){
+        dialog.remove()
+        resolve(null)
+      }
+
+      const varaajaElement = dialog.querySelector('.popSarjaVaraaja')
+      if(varaajaElement.value === ''){
+        varaajaElement.style = 'outline: solid red;'
         return
       } else {
-        varaaja.style = 'outline: none;'
+        varaajaElement.style = 'outline: none;'
       }
+
+      const varaaja = `${varaajaElement.value} ::sarja ::${new Date().valueOf()}`
 
       dialog.remove()
       resolve({
-        varaaja: varaaja.value,
+        varaaja,
         title: select.value,
         dates: arrayOfDates
       })

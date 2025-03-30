@@ -97,4 +97,39 @@ function auto_update_db() {
 add_action('wp_ajax_auto_update_db', 'auto_update_db');
 add_action( 'wp_ajax_nopriv_auto_update_db', 'auto_update_db');
 
-?>
+function auto_post_db_multi(): void {
+    global $wpdb;
+    $wp_table_name = get_table_name();
+
+    $values = [];
+
+    foreach ($_POST['dates'] as $key => $event) {
+        $values[] = $wpdb->prepare(
+            '(%s,%s,%s,%s)',
+            $_POST['title'],
+            $event['start'],
+            $event['end'],
+            $_POST['varaaja']
+        );
+    }
+
+    $query = "INSERT INTO {$wp_table_name} (title, start, end, varaaja) VALUES ";
+    $query .= implode(",\n", $values);
+
+    $result = $wpdb->query($query);
+
+    switch (true) {
+        case $result === false:
+            wp_send_json_error($result, 500);
+            break;
+        
+        case $result === 0:
+            wp_send_json_error($result, 400);
+            break;
+
+        case $result >= 1:
+            wp_send_json_success(array("message" => "wpdb events added successfully"), 200);
+    }
+}
+add_action('wp_ajax_auto_post_db_multi', 'auto_post_db_multi');
+add_action( 'wp_ajax_nopriv_auto_post_db_multi', 'auto_post_db_multi');
