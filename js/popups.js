@@ -18,9 +18,14 @@ async function SeriesPopup(startDateObj, endDateObj,availableCarsJson) {
     //const endTimeVariable = dateNoTimezone(endTime).split("T")[1].split(".")[0].split(":")  // turn dateobj to string array [0]hours [1]minutes
 
     function addDays(date, days) {
-      var result = new Date(date);
+      const result = new Date(date);
       result.setDate(result.getDate() + days);
       return result;
+    }
+
+    function parseClock(clock) {
+      const [hours, minutes] = clock.split(':')
+      return parseInt(hours)*60 + parseInt(minutes)
     }
     
     // start datetime
@@ -83,9 +88,13 @@ async function SeriesPopup(startDateObj, endDateObj,availableCarsJson) {
         </div>
       </div>
 
+      <div>
+        <p>Varaaja</p>
+        <input type='text' class='popSarjaVaraaja'/>
+      </div>
 
-      <button class='closeButton'>close</button>
-      <button class='addButton'>add</button>
+      <button class='closeButton varausBaseButton'>close</button>
+      <button class='addButton varausBaseButton baseGreen'>add</button>
     `
     //<input type='time' id='popTimeStartTime' value='${sHour}:${sMinute}'/>
     //<input type='time' id='popTimeEndTime' value='${eHour}:${eMinute}'/>
@@ -109,10 +118,12 @@ async function SeriesPopup(startDateObj, endDateObj,availableCarsJson) {
       //addButton.removeEventListener('click', () => closeButtonFunction())
 
       // get values from dates and times TODO
-      const startDateText = `${dialog.querySelector('#popDateStartTime').value}T${dialog.querySelector('#popTimeStartTime').value}:00`
+      const startClock = dialog.querySelector('#popTimeStartTime').value
+      const startDateText = `${dialog.querySelector('#popDateStartTime').value}T${startClock}:00`
       const startDateInput = new Date(startDateText)
 
-      const endDateText = `${dialog.querySelector('#popDateEndTime').value}T${dialog.querySelector('#popTimeEndTime').value}:00`
+      const endClock = dialog.querySelector('#popTimeEndTime').value
+      const endDateText = `${dialog.querySelector('#popDateEndTime').value}T${endClock}:00`
       const endDateInput = new Date(endDateText)
 
       const checkboxElements = dialog.getElementsByClassName('cbDay')
@@ -142,23 +153,47 @@ async function SeriesPopup(startDateObj, endDateObj,availableCarsJson) {
 
       const diffDays = Math.floor(-diffTime / (1000 * 60 * 60 * 24)) // time difference in days.
 
-      if(diffDays === 0){
+      if(diffDays === 0 || diffDays >= 180){
         dialog.querySelector('#popDateEndTime').style = 'outline: solid red;'
         return
       } else {
         dialog.querySelector('#popDateEndTime').style = 'outline: none;'
       }
 
+      if (parseClock(endClock) - parseClock(startClock) <= 0) {
+        dialog.querySelector('#popTimeEndTime').style = 'outline: solid red;'
+        return
+      } else {
+        dialog.querySelector('#popTimeEndTime').style = 'outline: none;'
+      }
+
       // loop through days froms start to end
-      const arrayOfDates = []
+      const arrayOfDates = [] //[{start: date, endDate}, {}, ...]
       for (let i = 1; i <= diffDays; i++){
         const newDate = addDays(startDateInput, i)
         if(daysChecked[ newDate.getDay() - 1 ]){
-          arrayOfDates.push(newDate)
+          const newDateEnd = addDays(endDateInput, i)
+          arrayOfDates.push({
+            start: newDate,
+            end: newDateEnd
+          })
         }
       }
 
-      console.log('dateArr:', arrayOfDates)
+      const varaaja = dialog.querySelector('.popSarjaVaraaja')
+      if(varaaja.value === ''){
+        varaaja.style = 'outline: solid red;'
+        return
+      } else {
+        varaaja.style = 'outline: none;'
+      }
+
+      dialog.remove()
+      resolve({
+        varaaja: varaaja.value,
+        title: select.value,
+        dates: arrayOfDates
+      })
     })
     
     document.body.appendChild(dialog)

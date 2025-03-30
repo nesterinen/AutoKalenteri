@@ -228,12 +228,14 @@ document.addEventListener('DOMContentLoaded', async () => {
     // 1000ms * 60 seconds * 60 minutes * 3 hours
     const threeHours = 1000 * 60 * 60 * 3
     const oneDay = 1000 * 60 * 60 * 24
-    //SeriesPopup(new Date(), new Date(Date.now() + threeHours + oneDay*14), availableCarsJson)
-    
+    SeriesPopup(new Date(), new Date(Date.now() + threeHours + oneDay*7), availableCarsJson).then(value => 
+        console.log(value)
+    )
+
     const seriesButton = document.createElement('button')
     seriesButton.innerHTML = 'Sarja varaus (PROTOTYPE)'
     seriesButton.addEventListener('click', async () => {
-        const result = await SeriesPopup(new Date(), new Date(Date.now() + threeHours + oneDay*14), availableCarsJson)
+        const result = await SeriesPopup(new Date(), new Date(Date.now() + threeHours + oneDay*7), availableCarsJson)
         console.log('series result', result)
     })
     calendarEl.appendChild(seriesButton)

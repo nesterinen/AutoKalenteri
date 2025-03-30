@@ -30,6 +30,31 @@ div[name="kalenteri_name_css"] .fc-scrollgrid-section.fc-scrollgrid-section-head
     max-height: 32px;
 }
 
+/* base styles */
+.varausBaseButton {
+    margin: 5px;
+    padding: 5px;
+
+    border: 1px solid transparent;
+    border-radius: 5px;
+    transition: 0.3s;
+    width: 45%;
+}
+
+.baseGreen {
+    background-color: #5baa00;
+}
+.baseGreen:hover {
+    background-color: #498701;
+}
+
+.baseRed {
+    background-color: #d12c0a;
+}
+
+.baseRed:hover {
+    background-color: #ad2307;
+}
 
 /* varausPopup styling */
 #varausPopup {
@@ -160,6 +185,12 @@ div[name="kalenteri_name_css"] .fc-scrollgrid-section.fc-scrollgrid-section-head
     border-color: #2c3e50;
     border-radius: 5px;
     border-width: 2px;
+    min-width: 16em;
+    text-align: center;
+}
+
+.seriesPopup div {
+    margin-bottom: 0.5em;
 }
 
 .seriesPopup p {
@@ -183,11 +214,14 @@ div[name="kalenteri_name_css"] .fc-scrollgrid-section.fc-scrollgrid-section-head
 
 .popDaySelect {
     display: flex;
-    margin-top: 1em;
     margin-bottom: 1em;
 }
 
 .popDaySelect div {
     margin: auto;
     border-bottom: 1px solid #2c3e50;
+}
+
+.popSarjaVaraaja {
+    width: 100%;
 }
