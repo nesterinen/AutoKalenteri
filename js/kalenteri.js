@@ -120,14 +120,14 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         eventClick: async function(arg) {
             // Popup returns
-            // {id: event.id, delete: boolean, update: boolean} // update functionality is not implemented yet or ever?
+            // {id: event.id, delete: boolean, update: boolean, series: boolean} // update functionality is not implemented yet or ever?
             const clickPopupReturn = await clickPopup(arg.event)
 
             if (!clickPopupReturn.id) {
                 return
             }
 
-            if (clickPopupReturn.delete) {
+            if (clickPopupReturn.delete && clickPopupReturn.series == false) {
                 const deleteId = clickPopupReturn.id
                 jQuery.ajax({
                     type: "post",
@@ -146,6 +146,31 @@ document.addEventListener('DOMContentLoaded', async () => {
                         console.log('delete error:', error)
                     }
                 });
+            }
+
+            if (clickPopupReturn.delete && clickPopupReturn.series) {
+                const varaaja = arg.event._def.extendedProps.varaaja
+                
+                jQuery.ajax({
+                    type: "post",
+                    dataType: "json",
+                    url: my_ajax_object.ajax_url,
+                    data: {
+                        action:'auto_delete_db_varaaja',
+                        varaaja
+                    },
+                    success: function(){ 
+                        calendar.getEvents().forEach(eventti => {
+                            if(eventti._def.extendedProps.varaaja === varaaja) {
+                                eventti.remove()
+                            }
+                        })
+                        console.log('deleted series:', varaaja); 
+                    },
+                    error: function(error){
+                        console.log('delete error:', error)
+                    }
+                })
             }
         },
 
@@ -222,7 +247,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
 
     calendar.render();
-
 
     // mySQL has no returning so we refetch again after inserting multple events to db
     async function getAllFilterByVaraaja(varaaja) {

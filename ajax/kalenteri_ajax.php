@@ -134,3 +134,25 @@ function auto_post_db_multi(): void {
 }
 add_action('wp_ajax_auto_post_db_multi', 'auto_post_db_multi');
 add_action( 'wp_ajax_nopriv_auto_post_db_multi', 'auto_post_db_multi');
+
+function auto_delete_db_varaaja() {
+    global $wpdb;
+    $wp_table_name = get_table_name();
+
+    $result = $wpdb->delete($wp_table_name, array('varaaja' => $_POST['varaaja']));
+  
+    switch (true) {
+        case $result === false:
+            wp_send_json_error($result, 500);
+            break;
+        
+        case $result === 0:
+            wp_send_json_error($result, 400);
+            break;
+
+        case $result >= 1:
+            wp_send_json_success(array("message" => "wpdb delete completed successfully"), 200);
+    }
+}
+add_action('wp_ajax_auto_delete_db_varaaja', 'auto_delete_db_varaaja');
+add_action( 'wp_ajax_nopriv_auto_delete_db_varaaja', 'auto_delete_db_varaaja');

@@ -364,10 +364,23 @@ async function clickPopup(event) {
       closeButton.removeEventListener('click', () => dialogClose())
       deleteButton.removeEventListener('click', () => dialogDelete())
       clickDialog.remove()
-      resolve({id: event.id, delete: true, update: false})
+      resolve({id: event.id, delete: true, update: false, series: false})
     }
     // ################################################################
 
+    // delete series button ###########################################
+    const varaajaSerial = event._def.extendedProps.varaaja.split('::')
+    let deleteSeriesButton = false
+    if(varaajaSerial.length > 1){
+      deleteSeriesButton = document.createElement('button')
+      deleteSeriesButton.textContent = 'poista koko sarja'
+      deleteSeriesButton.classList.add('varausBaseButton', 'baseRed')
+      deleteSeriesButton.addEventListener('click', () => {
+        clickDialog.remove()
+        resolve({id: event.id, delete: true, update: false, series: true})
+      })
+    }
+    // ################################################################
 
     // close dialog button ############################################
     var closeButton = document.createElement('button')
@@ -379,7 +392,7 @@ async function clickPopup(event) {
       closeButton.removeEventListener('click', () => dialogClose())
       deleteButton.removeEventListener('click', () => dialogDelete())
       clickDialog.remove()
-      resolve({id: null, delete: false, update: false})
+      resolve({id: null, delete: false, update: false, series: false})
     }
     // ################################################################
 
@@ -392,6 +405,9 @@ async function clickPopup(event) {
     //clickDialog.appendChild(dateText)
     //clickDialog.appendChild(timeText)
     //clickDialog.appendChild(endText)
+    if (deleteSeriesButton) {
+      clickDialog.appendChild(deleteSeriesButton)
+    }
 
     clickDialog.appendChild(deleteButton)
     clickDialog.appendChild(closeButton)
