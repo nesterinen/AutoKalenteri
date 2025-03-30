@@ -93,8 +93,8 @@ async function SeriesPopup(startDateObj, endDateObj,availableCarsJson) {
         <input type='text' class='popSarjaVaraaja'/>
       </div>
 
-      <button class='closeButton varausBaseButton'>close</button>
-      <button class='addButton varausBaseButton baseGreen'>add</button>
+      <button class='addButton varausBaseButton baseGreen'>varaa</button>
+      <button class='closeButton varausBaseButton'>peruuta</button>
     `
     //<input type='time' id='popTimeStartTime' value='${sHour}:${sMinute}'/>
     //<input type='time' id='popTimeEndTime' value='${eHour}:${eMinute}'/>
