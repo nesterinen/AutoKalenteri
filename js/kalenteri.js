@@ -24,34 +24,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         return new Date(date.getTime() - (date.getTimezoneOffset() * 60000)).toISOString();
     }
 
-    // mySQL has no returning so we refetch again after inserting multple events to db
-    async function getAllFilterByVaraaja(varaaja) {
-        return new Promise((resolve, reject) => {
-            jQuery.ajax({
-                type: "POST",
-                dataType: "json",
-                url: my_ajax_object.ajax_url,
-                data: { action:'auto_get_all' },
-                success: function(response){
-                    const resultJSON = response.data
-                        .filter(obj => obj.varaaja === varaaja)
-                        .map(obj => {
-                            return {...obj, color: colorCase(obj.title), extendedProps: {varaaja:obj.varaaja}}
-                        })
-
-                    resolve(resultJSON)
-                },
-                error: function(jqXHR, error, errorThrown){
-                  if(jqXHR.status&&jqXHR.status==200){
-                    reject('err', jqXHR);
-                  } else {
-                    reject(jqXHR.responseText)
-                  }
-                }
-            })
-        })
-    }
-
     // get reservations from database
     await jQuery.ajax({
         type: "POST",
@@ -252,10 +224,38 @@ document.addEventListener('DOMContentLoaded', async () => {
     calendar.render();
 
 
-    
+    // mySQL has no returning so we refetch again after inserting multple events to db
+    async function getAllFilterByVaraaja(varaaja) {
+        return new Promise((resolve, reject) => {
+            jQuery.ajax({
+                type: "POST",
+                dataType: "json",
+                url: my_ajax_object.ajax_url,
+                data: { action:'auto_get_all' },
+                success: function(response){
+                    const resultJSON = response.data
+                        .filter(obj => obj.varaaja === varaaja)
+                        .map(obj => {
+                            return {...obj, color: colorCase(obj.title), extendedProps: {varaaja:obj.varaaja}}
+                        })
+
+                    resolve(resultJSON)
+                },
+                error: function(jqXHR, error, errorThrown){
+                    if(jqXHR.status&&jqXHR.status==200){
+                    reject('err', jqXHR);
+                    } else {
+                    reject(jqXHR.responseText)
+                    }
+                }
+            })
+        })
+    }
 
     const seriesButton = document.createElement('button')
     seriesButton.innerHTML = 'Sarja varaus (PROTOTYPE)'
+    //seriesButton.classList.add('varausBaseButton', 'baseGreen')
+    seriesButton.classList.add('varausBaseButton')
     seriesButton.addEventListener('click', async () => {
         const threeHours = 1000 * 60 * 60 * 3
         const oneDay = 1000 * 60 * 60 * 24

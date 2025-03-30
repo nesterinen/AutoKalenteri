@@ -38,7 +38,7 @@ div[name="kalenteri_name_css"] .fc-scrollgrid-section.fc-scrollgrid-section-head
     border: 1px solid transparent;
     border-radius: 5px;
     transition: 0.3s;
-    width: 45%;
+    min-width: 45%;
 }
 
 .baseGreen {
