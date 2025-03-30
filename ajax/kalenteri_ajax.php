@@ -113,6 +113,7 @@ function auto_post_db_multi(): void {
         );
     }
 
+    // mySQL does not support RETURNING ids like postgress does....
     $query = "INSERT INTO {$wp_table_name} (title, start, end, varaaja) VALUES ";
     $query .= implode(",\n", $values);
 
@@ -128,7 +129,7 @@ function auto_post_db_multi(): void {
             break;
 
         case $result >= 1:
-            wp_send_json_success(array("message" => "wpdb events added successfully"), 200);
+            wp_send_json_success(array("result" => $result), 200);
     }
 }
 add_action('wp_ajax_auto_post_db_multi', 'auto_post_db_multi');
