@@ -56,6 +56,20 @@ div[name="kalenteri_name_css"] .fc-scrollgrid-section.fc-scrollgrid-section-head
     background-color: #ad2307;
 }
 
+.baseFCButton {
+    background-color: #5baa00;
+    border-color: #2c3e50;
+    color: white;
+    font-size: 1.1em;
+    font-weight: 400;
+    line-height: 1.5;
+    padding: 0.4em 0.64em;
+}
+
+.baseFCButton:hover {
+    background-color: #1e2b37;
+}
+
 /* varausPopup styling */
 #varausPopup {
     display: grid;

@@ -42,7 +42,7 @@ async function SeriesPopup(startDateObj, endDateObj,availableCarsJson) {
     const dialog = document.createElement('dialog')
     dialog.classList.add('seriesPopup')
     dialog.innerHTML = `
-      <h2>Auton sarja varaus</h2>
+      <h2>Sarja varaus</h2>
 
       <select id='popCarSelect'>
       </select>
@@ -169,7 +169,7 @@ async function SeriesPopup(startDateObj, endDateObj,availableCarsJson) {
 
       // loop through days froms start to end
       const arrayOfDates = [] //[{start: date, endDate}, {}, ...]
-      for (let i = 1; i <= diffDays; i++){
+      for (let i = 0; i <= diffDays; i++){
         const newDate = addDays(startDateInput, i)
         if(daysChecked[ newDate.getDay() - 1 ]){
           const newDateEnd = new Date(newDate)//addDays(endDateInput, i)

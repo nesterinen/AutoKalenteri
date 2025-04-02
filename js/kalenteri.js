@@ -277,9 +277,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     const seriesButton = document.createElement('button')
-    seriesButton.innerHTML = 'Sarja varaus (PROTOTYPE)'
+    seriesButton.innerHTML = 'Sarja varaus'
     //seriesButton.classList.add('varausBaseButton', 'baseGreen')
-    seriesButton.classList.add('varausBaseButton')
+    seriesButton.classList.add('varausBaseButton', 'baseFCButton') //'baseFCButton'
     seriesButton.addEventListener('click', async () => {
         const threeHours = 1000 * 60 * 60 * 3
         const oneDay = 1000 * 60 * 60 * 24
