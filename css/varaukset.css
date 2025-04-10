@@ -1,0 +1,56 @@
+
+.EeRoomContainer {
+    margin-top: 2.5em;
+    margin-bottom: 2.5em;
+    border: 1px solid black;
+}
+
+.EeElement{
+    border: 1px solid grey;
+    margin: 0.25em;
+    display: grid;
+    grid-template-columns: 15% 45% 40%;
+}
+
+.EeElement .EeHeader{
+    color: black;
+    font-size: 1.5em;
+    margin-left: 0.5em;
+    margin-right: 0.5em;
+    border-right: 1px solid grey;
+    align-content: center;
+}
+
+
+.EeElement .EeParagraph{
+    margin-left: 0.5em;
+    margin-right: 0.5em;
+    border-right: 1px solid grey;
+    align-content: center;
+}
+
+.EeElement .EeDateTime{
+    text-align: center;
+    /*outline: 1px solid coral;*/
+}
+
+.EeRoomHeader{
+    display: flex;
+}
+
+.EeRoomHeader h1{
+    margin-right: 0.5em;
+    margin-left: 0.1em;
+}
+
+.EeRoomHeaderDate{
+    display: flex;
+    text-align: center;
+}
+
+.EeRoomHeaderDate div {
+    padding-left: 0.25em;
+    padding-right: 0.25em;
+    margin-top: auto;
+    margin-bottom: auto;
+}

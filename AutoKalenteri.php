@@ -110,16 +110,30 @@ function load_kalenteri(){
     global $autovaraus_page_name;
     global $autovaraus_element_name;
     global $available_cars;
+
+    $version = '1.1';
+
     if(is_page($autovaraus_page_name)){
         wp_register_script('fullcalendar', plugin_dir_url( __FILE__ ) . "js/fullcalendar/dist/index.global.js", array( 'jquery' ), null, true);
         
-        wp_enqueue_style('wsp-styles', plugin_dir_url(__FILE__) . 'css/kalenteri.css');
+        wp_enqueue_style('wsp-styles', plugin_dir_url(__FILE__) . 'css/kalenteri.css', [], $version);
+        wp_enqueue_style('wsp-styles2', plugin_dir_url(__FILE__) . 'css/varaukset.css', [], $version);
         
+
         wp_register_script('popups-script', plugin_dir_url(__FILE__) . 'js/popups.js', [], null);
+       
+        wp_register_script(
+            'varaukset-script',
+            plugin_dir_url(__FILE__) . 'js/varaukset.js',
+            ['jquery'],
+            $version
+        );
+       
         wp_enqueue_script( 
             'ajax-script', 
             plugin_dir_url(__FILE__) . 'js/kalenteri.js', 
-            array('jquery', 'popups-script', 'fullcalendar')
+            ['jquery', 'popups-script', 'fullcalendar', 'varaukset-script'],
+            $version
         );
         wp_localize_script( 
             'ajax-script', 

@@ -1,8 +1,18 @@
 /* Calendar styling */
+a {
+    text-decoration: none !important; /*stop underlines*/
+}
+
+.blog-section .container{
+    min-width: 80vw;
+}
+
 div[name="kalenteri_name_css"] {
-    max-width: 1100px;
-    max-height: 702px;
-    margin: 0 auto;
+    max-height: 67em;
+}
+
+div[name="kalenteri_name_css"] .fc-timegrid-slots table tbody tr{
+    height: 2.3em;
 }
 
 div[name="kalenteri_name_css"] table {
