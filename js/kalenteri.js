@@ -80,6 +80,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         slotMinTime: "07:00",
         slotMaxTime: "19:00",
         firstDay: 1,
+
+        //slotEventOverlap: false, //false on local but not on production??
         
         select: async function(arg) {
             // 1 day has to be subtracted when in monthview and making reservations, else 2 day long event is created.
