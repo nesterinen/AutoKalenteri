@@ -2,7 +2,7 @@
 /**
  * Plugin Name: AutoKalenteri
  * Description: Kalenteri autojen varaamista varten.
- * Version: 1.1
+ * Version: 1.1.1
  * Author: Aleksei Nesterinen
  * Author URI: https://github.com/nesterinen
  * Plugin URI: https://codeload.github.com/nesterinen/AutoKalenteri/zip/refs/heads/main
@@ -156,7 +156,7 @@ function load_auto_kalenteri(){
     global $autovaraus_element_name;
     global $available_cars;
 
-    $version = '1.1';
+    $version = '1.1.1';
 
     if(is_page($autovaraus_page_name)){
         $list_page_name = "{$autovaraus_page_name}_lista";
@@ -200,7 +200,7 @@ function load_auto_lista(){
     $list_page_name = "{$autovaraus_page_name}_lista";
     $list_element_name = "{$autovaraus_element_name}_lista";
 
-    $version = '1.1';
+    $version = '1.1.1';
 
     if(!is_page($list_page_name)){
         return;

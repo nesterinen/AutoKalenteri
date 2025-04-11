@@ -1,5 +1,3 @@
-console.log('varaukse.js loaded..')
-
 class CarReservationsContainer {
     constructor(car, color){
         this.car = car
@@ -170,11 +168,10 @@ async function EventList(parentElement){
     parentElement.appendChild(container)
 }
 
+console.log('varaukset.js loaded')
 document.addEventListener('DOMContentLoaded', async () => {
     const calendarListElement = document.getElementById(php_args.element_name)
     if(!calendarListElement) return
-
-    console.log('Autovaraus lista loaded.')
     
     const link = document.createElement('a')
     link.href = php_args.link_to_main
