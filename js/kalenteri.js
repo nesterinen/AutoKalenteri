@@ -5,8 +5,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     let calendarEl = document.getElementById(my_ajax_object.element_name); // page needs div with id kalenteriElement
     if (!calendarEl) return; // if cant get elem then its useless to do the rest.
 
-    //EventList(calendarEl)
-    //return
+    EventList(calendarEl)
+    return
 
     calendarEl.setAttribute('name', 'kalenteri_name_css') // refrence for css
 

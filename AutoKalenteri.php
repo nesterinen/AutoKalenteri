@@ -62,7 +62,7 @@ function kalenteri_plugin_activation() {
 register_activation_hook(__FILE__, 'kalenteri_plugin_activation');
 
 // create page for kalenteri
-function kalenteri_plugin_activation_page() {
+function auto_kalenteri_plugin_activation_page() {
     global $autovaraus_page_name;
     global $autovaraus_element_name;
 
@@ -100,13 +100,58 @@ function kalenteri_plugin_activation_page() {
     
     wp_insert_post($kalenteri_page);
 }
-register_activation_hook(__FILE__, 'kalenteri_plugin_activation_page');
+register_activation_hook(__FILE__, 'auto_kalenteri_plugin_activation_page');
+
+
+// create page for list of events
+function auto_kalenteri_lista_plugin_activation_page() {
+    global $autovaraus_page_name;
+    global $autovaraus_element_name;
+
+    $list_page_name = "{$autovaraus_page_name}_lista";
+    $list_element_name = "{$autovaraus_element_name}_lista";
+
+    // get_page_by_title() is Deprecated so use wp_query.
+    // if page for calendar does not exist then create page.
+    $query = new WP_Query(
+        array(
+            'post_type'              => 'page',
+            'title'                  => $list_page_name ,
+            'post_status'            => 'all',
+            'posts_per_page'         => 1,
+            'no_found_rows'          => true,
+            'ignore_sticky_posts'    => true,
+            'update_post_term_cache' => false,
+            'update_post_meta_cache' => false,
+            'orderby'                => 'post_date ID',
+            'order'                  => 'ASC',
+        )
+    );
+
+    if ( ! empty( $query->post)) { 
+        //write_log('page exists already');
+        return;
+    }
+
+    $page_content = "<div id='{$list_element_name}'></div>";
+    
+    $list_page = [
+        'post_title' => wp_strip_all_tags($list_page_name ),
+        'post_content' => $page_content,
+        'post_status' => 'publish',
+        'post_author' => 1,
+        'post_type' => 'page'
+    ];
+    
+    wp_insert_post($list_page);
+}
+register_activation_hook(__FILE__, 'auto_kalenteri_lista_plugin_activation_page');
 
 // ajax, rest/crud api modifying db stuff for kalenteri
 include(plugin_dir_path(__FILE__) . 'ajax/kalenteri_ajax.php');
 
 // load fullcalender, styles, kalenteri and ajax variable for kalenteri.
-function load_kalenteri(){
+function load_auto_kalenteri(){
     global $autovaraus_page_name;
     global $autovaraus_element_name;
     global $available_cars;
@@ -114,25 +159,19 @@ function load_kalenteri(){
     $version = '1.1';
 
     if(is_page($autovaraus_page_name)){
+        $list_page_name = "{$autovaraus_page_name}_lista";
+        $link_to_list = get_bloginfo('url') . '/'. $list_page_name;
+
         wp_register_script('fullcalendar', plugin_dir_url( __FILE__ ) . "js/fullcalendar/dist/index.global.js", array( 'jquery' ), null, true);
         
-        wp_enqueue_style('wsp-styles', plugin_dir_url(__FILE__) . 'css/kalenteri.css', [], $version);
-        wp_enqueue_style('wsp-styles2', plugin_dir_url(__FILE__) . 'css/varaukset.css', [], $version);
-        
+        wp_enqueue_style('wsp-styles', plugin_dir_url(__FILE__) . 'css/kalenteri.css', [], $version);        
 
         wp_register_script('popups-script', plugin_dir_url(__FILE__) . 'js/popups.js', [], null);
-       
-        wp_register_script(
-            'varaukset-script',
-            plugin_dir_url(__FILE__) . 'js/varaukset.js',
-            ['jquery'],
-            $version
-        );
        
         wp_enqueue_script( 
             'ajax-script', 
             plugin_dir_url(__FILE__) . 'js/kalenteri.js', 
-            ['jquery', 'popups-script', 'fullcalendar', 'varaukset-script'],
+            ['jquery', 'popups-script', 'fullcalendar'],
             $version
         );
         wp_localize_script( 
@@ -141,10 +180,58 @@ function load_kalenteri(){
             array( 
             'ajax_url' => admin_url( 'admin-ajax.php' ),
             'element_name' => $autovaraus_element_name,
-            'available_cars' => $available_cars
+            'available_cars' => $available_cars,
+            'link_to_list' => $link_to_list
             )
         );
     }
 }
-add_action('wp_enqueue_scripts', 'load_kalenteri');
-?>
+add_action('wp_enqueue_scripts', 'load_auto_kalenteri');
+
+/*
+    $list_page_name = "{$autovaraus_page_name}_lista";
+    $list_element_name = "{$autovaraus_element_name}_lista";
+*/
+function load_auto_lista(){
+    global $autovaraus_page_name;
+    global $autovaraus_element_name;
+    global $available_cars;
+
+    $list_page_name = "{$autovaraus_page_name}_lista";
+    $list_element_name = "{$autovaraus_element_name}_lista";
+
+    $version = '1.1';
+
+    if(!is_page($list_page_name)){
+        return;
+    }
+
+    $link_to_main = get_bloginfo('url') . '/'. $autovaraus_page_name;
+
+
+    wp_enqueue_style(
+        'varakset-style', 
+        plugin_dir_url(__FILE__) . 'css/varaukset.css', 
+        [], 
+        $version
+    );
+
+    wp_enqueue_script( 
+        'varaukset-script',
+        plugin_dir_url(__FILE__) . 'js/varaukset.js',
+        ['jquery'],
+        $version
+    );
+
+    wp_localize_script( 
+        'varaukset-script',
+        'php_args', 
+        [
+        'ajax_url' => admin_url( 'admin-ajax.php' ),
+        'element_name' => $list_element_name,
+        'available_cars' => $available_cars,
+        'link_to_main' => $link_to_main
+        ]
+    );
+}
+add_action('wp_enqueue_scripts', 'load_auto_lista');
