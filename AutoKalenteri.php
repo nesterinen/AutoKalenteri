@@ -188,10 +188,6 @@ function load_auto_kalenteri(){
 }
 add_action('wp_enqueue_scripts', 'load_auto_kalenteri');
 
-/*
-    $list_page_name = "{$autovaraus_page_name}_lista";
-    $list_element_name = "{$autovaraus_element_name}_lista";
-*/
 function load_auto_lista(){
     global $autovaraus_page_name;
     global $autovaraus_element_name;
