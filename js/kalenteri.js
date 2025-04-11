@@ -5,8 +5,12 @@ document.addEventListener('DOMContentLoaded', async () => {
     let calendarEl = document.getElementById(my_ajax_object.element_name); // page needs div with id kalenteriElement
     if (!calendarEl) return; // if cant get elem then its useless to do the rest.
 
-    EventList(calendarEl)
-    return
+    const link = document.createElement('a')
+    link.href = my_ajax_object.link_to_list
+    link.textContent = 'Varaus lista'
+    link.style = 'font-size: 1.25em; text-decoration: underline !important;'
+    calendarEl.parentElement.appendChild(link)
+
 
     calendarEl.setAttribute('name', 'kalenteri_name_css') // refrence for css
 

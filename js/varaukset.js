@@ -115,7 +115,7 @@ async function EventList(parentElement){
 
     // create car container/element/object things
     const cars = {}
-    for (const [car, color] of Object.entries(my_ajax_object.available_cars)) {
+    for (const [car, color] of Object.entries(php_args.available_cars)) {
         const eventObject = new CarReservationsContainer(car, color)
         cars[car] = eventObject
         mainContainer.appendChild(eventObject.element)
@@ -125,11 +125,11 @@ async function EventList(parentElement){
     await jQuery.ajax({
         type: "POST",
         dataType: "json",
-        url: my_ajax_object.ajax_url,
+        url: php_args.ajax_url,
         data: { action: 'auto_get_all' },
         success: function (response) {
             reservations = response.data.map(obj => {
-                const color = my_ajax_object.available_cars[obj.title] ? my_ajax_object.available_cars[obj.title] : '#5baa00'
+                const color = php_args.available_cars[obj.title] ? php_args.available_cars[obj.title] : '#5baa00'
                 return {...obj, color:color}
             })
         },
@@ -169,3 +169,22 @@ async function EventList(parentElement){
 
     parentElement.appendChild(container)
 }
+
+document.addEventListener('DOMContentLoaded', async () => {
+    const calendarListElement = document.getElementById(php_args.element_name)
+    if(!calendarListElement) return
+
+    console.log('Autovaraus lista loaded.')
+    
+    const link = document.createElement('a')
+    link.href = php_args.link_to_main
+    link.textContent = 'Autovaraus kalenteri'
+    calendarListElement.appendChild(link)
+
+    await EventList(calendarListElement)
+
+    const blink = document.createElement('a')
+    blink.href = php_args.link_to_main
+    blink.textContent = 'Autovaraus kalenteri'
+    calendarListElement.appendChild(blink)
+})
