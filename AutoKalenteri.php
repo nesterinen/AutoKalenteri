@@ -24,7 +24,6 @@ $autovaraus_element_name = 'kalenteriElement';
 
 global $available_cars;
 $available_cars = [
-    'Henkilöauto'=>'#648FFF',
     'Pakettiauto'=>'#785EF0',
     'Pikkubussi'=>'#FE6100',
     'Peräkärri' => '#DC267F',
