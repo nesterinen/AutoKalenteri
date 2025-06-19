@@ -2,7 +2,7 @@
 
 <p align="center"><img src="github/kalenteri.png"/></p>
 
-<h2 align="center"> AutoKalenteri is a simple wordpress plugin for managing car availability </h2>
+<h2 align="center"> AutoKalenteri is a simple wordpress plugin for managing availability of vehicles</h2>
 
 <h3> Functionality: </h3>
 <ul>
@@ -14,19 +14,22 @@
 
 <a href="https://fullcalendar.io/"> This plugin uses Fullcalendar </a>
 
-<h3> Download & Installation </h3>
+<h3> -Download & Installation- </h3>
 <a href="https://codeload.github.com/nesterinen/AutoKalenteri/zip/refs/heads/main"> Download(.zip) </a>
 
 <p>Then login to your wordpress admin site, and go to the plugins page ~/wp-admin/plugins.php</p>
-<img src="github/adNewPlug.png">
-<img src="github/upldNewPlug.png">
-<img src="github/brwsNewPlug.png">
-<img src="github/selectNewPlug.png">
-<img src="github/wppluginmarked.png"/>
+<ol>
+  <li><img src="github/adNewPlug.png"></li>
+  <li><img src="github/upldNewPlug.png"></li>
+  <li><img src="github/brwsNewPlug.png"></li>
+  <li><img src="github/selectNewPlug.png"></li>
+  <li><img src="github/wppluginmarked.png"/></li>
+</ol>
+
 <p>The plugin will then automatically create a <a href="github/wppages.png">page</a> and database <a href="github/table.png">table</a> for the plugin</p>
 
-<h3> Changing which cars are available</h3>
-<p>List of cars and their respective display colors are hard coded into AutoKalenteri.php as a global variable. &#129318;</p>
+<h3> -Changing which vehicles are available- </h3>
+<p>List of vehicles and their respective display colors are hard coded into AutoKalenteri.php as a global variable. &#129318;</p>
 <p>To access and modify AutoKalenteri.php in wordpress/wp-admin/plugin-editor.php</p>
 <ul>
   <li>
@@ -57,11 +60,9 @@
   </li>
 </ul>
 
-<h3>License</h3>
+<h3>-License-</h3>
 This project is licensed under the MIT License
 
-<h3>Footnote</h3>
+<h3>-Footnote-</h3>
 <p>this is my first time being in the wordpress enviroment</p>
 <p>this is my first time using php</p>
-
-    'Kuomukärri' => '#FFB000',
