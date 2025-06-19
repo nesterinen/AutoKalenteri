@@ -25,6 +25,37 @@
 <img src="github/wppluginmarked.png"/>
 <p>The plugin will then automatically create a <a href="github/wppages.png">page</a> and database <a href="github/table.png">table</a> for the plugin</p>
 
+<h3> Changing which cars are available</h3>
+<p>List of cars and their respective display colors are hard coded into AutoKalenteri.php as a global variable. &#129318;</p>
+<p>To access and modify AutoKalenteri.php in wordpress/wp-admin/plugin-editor.php</p>
+<ul>
+  <li>
+    <h3>DISABLE PLUGIN BEFORE EDITING FILES.</h3>
+    <p>Go to plugin file editor</p>
+    <img src="github/wppluginbdropdown.png">
+  </li>
+  <li>
+    <p>Select AutoKalenteri</p>
+    <img src="github/wpselectpluginfile.png">
+  </li>
+  <li>
+    <p>Find "global $available_cars;" variable</p>
+    <img src="github/wpeditpluginfile.png">
+  </li>
+  <li>
+    <p>Example: 'Leopard 2A6' => <span style="color:#6f9107">'#6F9107'</span> | 'nameOfVehice' => '#hexColor'</p>
+    <img src="github/wpeditphpaddline.png">
+  </li>
+  <li>
+    <p>Click Update to save changes.</p>
+    <img src="github/wpupdatefile.png">
+  </li>
+  <li>
+    <h3>ENABLE PLUGIN AGAIN HERE</h3>
+    <p>Calendar now has a new option</p>
+    <img src="github/wpkalenterinewadded.png">
+  </li>
+</ul>
 
 <h3>License</h3>
 This project is licensed under the MIT License
@@ -32,3 +63,5 @@ This project is licensed under the MIT License
 <h3>Footnote</h3>
 <p>this is my first time being in the wordpress enviroment</p>
 <p>this is my first time using php</p>
+
+    'Kuomukärri' => '#FFB000',
